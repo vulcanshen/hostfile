@@ -1,0 +1,62 @@
+version: 2
+
+project_name: hostfile
+
+builds:
+  - main: .
+    binary: hostfile
+    ldflags:
+      - -s -w -X github.com/vulcanshen/hostfile/cmd.Version={{.Version}}
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - formats:
+      - tar.gz
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+
+nfpms:
+  - package_name: hostfile
+    homepage: "https://github.com/vulcanshen/hostfile"
+    maintainer: "vulcanshen <vulcanshen@users.noreply.github.com>"
+    description: "Cross-platform hosts file manager CLI"
+    license: GPL-3.0
+    formats:
+      - deb
+      - rpm
+
+brews:
+  - repository:
+      owner: vulcanshen
+      name: homebrew-tap
+      token: "{{ .Env.ACTION_TOKEN }}"
+    homepage: "https://github.com/vulcanshen/hostfile"
+    description: "Cross-platform hosts file manager CLI"
+
+scoops:
+  - repository:
+      owner: vulcanshen
+      name: scoop-bucket
+      token: "{{ .Env.ACTION_TOKEN }}"
+    homepage: "https://github.com/vulcanshen/hostfile"
+    description: "Cross-platform hosts file manager CLI"

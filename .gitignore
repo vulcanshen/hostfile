@@ -1,0 +1,23 @@
+# Binary
+hostfile
+hostfile.exe
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Go
+vendor/
+
+# GoReleaser
+dist/
+
+# Project private
+idea.md
+.claude/
