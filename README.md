@@ -49,9 +49,38 @@ scoop install hostfile
 
 Download the latest release from the [Releases page](https://github.com/vulcanshen/hostfile/releases).
 
-## Usage
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `hostfile init` | Take over the current hosts file — backs up as "origin", reformats all entries into managed block |
+| `hostfile add <ip> <domain1> [domain2...]` | Add domains to an IP, auto-merge if the IP already exists |
+| `hostfile remove <ip\|domain>` | Remove an IP (entire line) or a single domain |
+| `hostfile search <ip\|domain>` | Search the managed block — IP returns domains, domain returns IP |
+| `hostfile list` | List all entries in the managed block |
+| `hostfile enable <ip\|domain>` | Re-enable a disabled entry |
+| `hostfile disable <ip\|domain>` | Disable an entry without deleting it |
+| `hostfile apply <file>` | Replace the managed block with content from a file |
+| `hostfile merge <file>` | Merge content from a file into the managed block |
+| `hostfile clean` | Clear all entries from the managed block |
+| `hostfile backup <name>` | Backup the managed block to `~/.hostfile/<name>.hostfile` |
+| `hostfile backup list` | List all backups |
+| `hostfile backup restore <name>` | Restore the managed block from a backup |
+| `hostfile backup delete <name>` | Delete a backup |
+| `hostfile version` | Print the version number |
+
+### Global Flags
+
+| Flag | Description |
+|------|-------------|
+| `--hosts-file <path>` | Path to hosts file (default: `/etc/hosts` or `C:\Windows\System32\drivers\etc\hosts`) |
+
+## Usage Examples
 
 ```bash
+# First time setup — take over your existing hosts file
+hostfile init
+
 # Add entries
 hostfile add 192.168.1.100 web.local api.local
 
@@ -83,6 +112,9 @@ hostfile backup delete my-snapshot
 
 # Clear everything
 hostfile clean
+
+# Restore original hosts file (before init)
+hostfile backup restore origin
 
 # Use a custom hosts file (for testing or dry-run)
 hostfile list --hosts-file /tmp/test.hosts
