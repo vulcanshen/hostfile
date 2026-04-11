@@ -91,11 +91,15 @@ hostfile list --hosts-file /tmp/test.hosts
 ## Shell Completion
 
 ```bash
+# Zsh
+mkdir -p ~/.zsh/completions
+hostfile completion zsh > ~/.zsh/completions/_hostfile
+# Add to ~/.zshrc (only needed once):
+#   fpath=(~/.zsh/completions $fpath)
+#   autoload -Uz compinit && compinit
+
 # Bash
 hostfile completion bash > /etc/bash_completion.d/hostfile
-
-# Zsh
-hostfile completion zsh > "${fpath[1]}/_hostfile"
 
 # Fish
 hostfile completion fish > ~/.config/fish/completions/hostfile.fish
