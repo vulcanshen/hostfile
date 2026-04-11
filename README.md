@@ -126,9 +126,9 @@ hostfile list --hosts-file /tmp/test.hosts
 # Zsh
 mkdir -p ~/.zsh/completions
 hostfile completion zsh > ~/.zsh/completions/_hostfile
-# Add to ~/.zshrc (only needed once):
-#   fpath=(~/.zsh/completions $fpath)
-#   autoload -Uz compinit && compinit
+echo 'fpath=(~/.zsh/completions $fpath)' >> ~/.zshrc
+echo 'autoload -Uz compinit && compinit' >> ~/.zshrc
+source ~/.zshrc
 
 # Bash
 hostfile completion bash > /etc/bash_completion.d/hostfile
