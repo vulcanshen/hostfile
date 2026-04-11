@@ -66,6 +66,19 @@ func TestParseLine_DisableDomain(t *testing.T) {
 	}
 }
 
+func TestParseLine_IPv6ZoneID(t *testing.T) {
+	entry, err := ParseLine("fe80::1%lo0  localhost")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if entry.IP != "fe80::1%lo0" {
+		t.Errorf("expected IP fe80::1%%lo0, got %s", entry.IP)
+	}
+	if len(entry.Domains) != 1 || entry.Domains[0] != "localhost" {
+		t.Errorf("expected [localhost], got %v", entry.Domains)
+	}
+}
+
 func TestParseLine_EmptyLine(t *testing.T) {
 	entry, err := ParseLine("")
 	if err != nil {

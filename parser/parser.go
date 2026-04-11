@@ -3,6 +3,7 @@ package parser
 import (
 	"fmt"
 	"net"
+	"net/netip"
 	"strings"
 )
 
@@ -21,6 +22,16 @@ const (
 	DisableIP                 // entire line disabled
 	DisableDomain             // single domain disabled
 )
+
+// ValidIP checks if a string is a valid IP address, including IPv6 with zone ID (e.g. fe80::1%lo0).
+func ValidIP(s string) bool {
+	if net.ParseIP(s) != nil {
+		return true
+	}
+	// net.ParseIP doesn't handle zone IDs, try netip.ParseAddr
+	_, err := netip.ParseAddr(s)
+	return err == nil
+}
 
 // HostEntry represents a single entry in the managed block.
 // For normal and disable-ip entries: IP + Domains.
@@ -55,7 +66,7 @@ func ParseLine(line string) (*HostEntry, error) {
 		}
 		domain := fields[0]
 		ip := fields[1]
-		if net.ParseIP(ip) == nil {
+		if !ValidIP(ip) {
 			return nil, fmt.Errorf("invalid IP in disable-domain line: %s", ip)
 		}
 		return &HostEntry{
@@ -73,7 +84,7 @@ func ParseLine(line string) (*HostEntry, error) {
 			return nil, fmt.Errorf("invalid disable-ip format: %s", line)
 		}
 		ip := fields[0]
-		if net.ParseIP(ip) == nil {
+		if !ValidIP(ip) {
 			return nil, fmt.Errorf("invalid IP in disable-ip line: %s", ip)
 		}
 		return &HostEntry{
@@ -94,7 +105,7 @@ func ParseLine(line string) (*HostEntry, error) {
 		return nil, fmt.Errorf("invalid hosts line (need IP + at least one domain): %s", line)
 	}
 	ip := fields[0]
-	if net.ParseIP(ip) == nil {
+	if !ValidIP(ip) {
 		return nil, fmt.Errorf("invalid IP: %s", ip)
 	}
 	return &HostEntry{

@@ -2,7 +2,6 @@ package manager
 
 import (
 	"fmt"
-	"net"
 	"os"
 	"strings"
 
@@ -66,7 +65,7 @@ func WriteHostsFile(path string, before string, block *parser.ManagedBlock, afte
 
 // isIP returns true if the string is a valid IP address.
 func isIP(s string) bool {
-	return net.ParseIP(s) != nil
+	return parser.ValidIP(s)
 }
 
 // Add adds domains to an IP in the managed block.
@@ -78,7 +77,7 @@ type ConflictInfo struct {
 }
 
 func Add(block *parser.ManagedBlock, ip string, domains []string) ([]ConflictInfo, error) {
-	if net.ParseIP(ip) == nil {
+	if !parser.ValidIP(ip) {
 		return nil, fmt.Errorf("invalid IP address: %s", ip)
 	}
 
