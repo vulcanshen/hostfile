@@ -105,6 +105,52 @@ func Restore(name string) (*parser.ManagedBlock, error) {
 	return parser.ParseBlock(content), nil
 }
 
+// CreateRaw saves raw file content as a backup (preserving original formatting).
+func CreateRaw(name string, data []byte) error {
+	base, err := backupBasePathFn()
+	if err != nil {
+		return err
+	}
+
+	if err := os.MkdirAll(base, 0755); err != nil {
+		return fmt.Errorf("cannot create backup directory: %w", err)
+	}
+
+	path := filepath.Join(base, name+backupExt)
+	return os.WriteFile(path, data, 0644)
+}
+
+// IsRaw checks if a backup is a raw file (no managed block markers).
+func IsRaw(name string) (bool, error) {
+	base, err := backupBasePathFn()
+	if err != nil {
+		return false, err
+	}
+
+	path := filepath.Join(base, name+backupExt)
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return false, err
+	}
+
+	return !strings.Contains(string(data), parser.BlockStart), nil
+}
+
+// RestoreRaw reads a raw backup and returns the raw content.
+func RestoreRaw(name string) ([]byte, error) {
+	base, err := backupBasePathFn()
+	if err != nil {
+		return nil, err
+	}
+
+	path := filepath.Join(base, name+backupExt)
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, fmt.Errorf("backup %q not found: %w", name, err)
+	}
+	return data, nil
+}
+
 // Delete removes a backup file.
 func Delete(name string) error {
 	base, err := backupBasePathFn()

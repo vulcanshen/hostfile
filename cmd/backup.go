@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/vulcanshen/hostfile/backup"
 	"github.com/vulcanshen/hostfile/manager"
+	"github.com/vulcanshen/hostfile/privilege"
 )
 
 var backupCmd = &cobra.Command{
@@ -54,6 +55,24 @@ var backupRestoreCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		name := args[0]
+
+		// check if this is a raw backup (e.g. from init)
+		raw, err := backup.IsRaw(name)
+		if err != nil {
+			exitWithError(err)
+		}
+
+		if raw {
+			data, err := backup.RestoreRaw(name)
+			if err != nil {
+				exitWithError(err)
+			}
+			if err := privilege.WriteFilePrivileged(hostsFile, data); err != nil {
+				exitWithError(err)
+			}
+			fmt.Printf("restored raw backup %q\n", name)
+			return
+		}
 
 		restored, err := backup.Restore(name)
 		if err != nil {
