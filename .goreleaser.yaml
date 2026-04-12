@@ -28,12 +28,10 @@ checksum:
   name_template: "checksums.txt"
 
 changelog:
-  sort: asc
-  filters:
-    exclude:
-      - "^docs:"
-      - "^test:"
-      - "^chore:"
+  disable: true
+
+release:
+  extra_files: []
 
 nfpms:
   - package_name: hostfile

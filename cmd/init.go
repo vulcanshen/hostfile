@@ -40,7 +40,7 @@ This is a one-time setup command to start managing your hosts file with hostfile
 
 		// confirm with user
 		fmt.Println("This will overwrite your current hosts file with hostfile's managed format.")
-		fmt.Println("You can restore the original later with: hostfile backup restore origin")
+		fmt.Println("You can restore the original later with: hostfile load origin")
 		if !confirm("Continue?") {
 			fmt.Println("aborted")
 			return
