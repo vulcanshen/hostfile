@@ -17,12 +17,16 @@ Designed to be simple enough that anyone can use it — just copy-paste a comman
 
 - **Add / Remove** — manage IP-domain mappings, auto-merge same IP entries
 - **Enable / Disable** — toggle entries without deleting them (per-IP or per-domain granularity)
-- **Search / Show** — query and display managed entries
-- **Apply / Merge** — import hosts from external files (replace or merge)
+- **Search / Show** — query and display managed entries with colored, aligned output
+- **Apply / Merge** — import from files or stdin, auto-detects JSON and hosts format with validation
+- **JSON I/O** — `show --json` for export, `apply -` / `merge -` for import via pipeline
 - **Save / Load** — snapshot and restore your managed entries
 - **Clean** — clear all managed entries in one command
-- IPv4 + IPv6 support
+- Managed block isolation — never modifies entries you wrote by hand
+- Automatic privilege escalation (sudo / doas / gsudo)
+- IPv4 + IPv6 support (including zone IDs)
 - Shell completion (bash, zsh, fish, powershell)
+- Cross-platform: macOS, Linux, Windows
 
 ## How It Works
 
