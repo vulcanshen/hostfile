@@ -17,6 +17,7 @@ vendor/
 
 # GoReleaser
 dist/
+RELEASE_NOTES.md
 
 # Project private
 idea.md
