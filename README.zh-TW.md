@@ -79,22 +79,23 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 
 | 指令 | 說明 |
 |------|------|
-| `hostfile init` | 接管現有 hosts 檔 — 備份原始檔為 "origin"，將所有設定轉為 managed block |
-| `hostfile add <ip> <domain1> [domain2...]` | 新增 domain 到指定 IP，同 IP 自動合併 |
-| `hostfile remove <ip\|domain>` | 移除一個 IP（整行）或單一 domain |
-| `hostfile search <ip\|domain>` | 搜尋 — 輸入 IP 回傳 domain，輸入 domain 回傳 IP |
-| `hostfile show` | 顯示目前 managed block 的所有設定 |
-| `hostfile show <name>` | 顯示某個快照的內容 |
-| `hostfile enable <ip\|domain>` | 啟用被停用的設定 |
-| `hostfile disable <ip\|domain>` | 停用設定（不刪除） |
-| `hostfile apply <file>` | 用外部檔案取代 managed block |
-| `hostfile merge <file>` | 將外部檔案合併進 managed block |
-| `hostfile clean` | 清空 managed block 的所有設定 |
-| `hostfile save <name>` | 儲存目前的設定為快照（存放於 `~/.hostfile/`） |
-| `hostfile list` | 列出所有已儲存的快照 |
-| `hostfile load <name>` | 載入快照 |
-| `hostfile delete <name>` | 刪除快照 |
-| `hostfile version` | 顯示版本號 |
+| `init` | 接管現有 hosts 檔 — 備份原始檔為 "origin"，將所有設定轉為 managed block |
+| `add <ip> <domain1> [domain2...]` | 新增 domain 到指定 IP，同 IP 自動合併 |
+| `remove <ip\|domain>` | 移除一個 IP（整行）或單一 domain |
+| `search <ip\|domain>` | 搜尋 — 輸入 IP 回傳 domain，輸入 domain 回傳 IP |
+| `show` | 顯示目前 managed block 的所有設定（著色對齊） |
+| `show --json` | 以 JSON 格式輸出 active 設定 |
+| `show <name>` | 顯示某個快照的內容 |
+| `enable <ip\|domain>` | 啟用被停用的設定 |
+| `disable <ip\|domain>` | 停用設定（不刪除） |
+| `apply <file \| ->` | 用檔案或 stdin 取代 managed block（支援 JSON） |
+| `merge <file \| ->` | 將檔案或 stdin 合併進 managed block（支援 JSON） |
+| `clean` | 清空 managed block 的所有設定 |
+| `save <name>` | 儲存目前的設定為快照（存放於 `~/.hostfile/`） |
+| `list` | 列出所有已儲存的快照 |
+| `load <name>` | 載入快照 |
+| `delete <name>` | 刪除快照 |
+| `version` | 顯示版本號 |
 
 ### 全域參數
 

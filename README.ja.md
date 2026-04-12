@@ -79,22 +79,23 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 
 | コマンド | 説明 |
 |----------|------|
-| `hostfile init` | 既存の hosts ファイルを引き継ぐ — 元ファイルを "origin" としてバックアップし、全エントリを managed block に変換 |
-| `hostfile add <ip> <domain1> [domain2...]` | 指定 IP にドメインを追加、同一 IP は自動マージ |
-| `hostfile remove <ip\|domain>` | IP（行全体）または単一ドメインを削除 |
-| `hostfile search <ip\|domain>` | 検索 — IP を入力するとドメインを返し、ドメインを入力すると IP を返す |
-| `hostfile show` | managed block の全エントリを表示 |
-| `hostfile show <name>` | 保存されたスナップショットの内容を表示 |
-| `hostfile enable <ip\|domain>` | 無効化されたエントリを有効化 |
-| `hostfile disable <ip\|domain>` | エントリを削除せずに無効化 |
-| `hostfile apply <file>` | 外部ファイルで managed block を置換 |
-| `hostfile merge <file>` | 外部ファイルを managed block にマージ |
-| `hostfile clean` | managed block の全エントリをクリア |
-| `hostfile save <name>` | 現在の設定をスナップショットとして保存（`~/.hostfile/` に保存） |
-| `hostfile list` | 保存済みスナップショットの一覧表示 |
-| `hostfile load <name>` | スナップショットを読み込み |
-| `hostfile delete <name>` | スナップショットを削除 |
-| `hostfile version` | バージョン番号を表示 |
+| `init` | 既存の hosts ファイルを引き継ぐ — 元ファイルを "origin" としてバックアップし、全エントリを managed block に変換 |
+| `add <ip> <domain1> [domain2...]` | 指定 IP にドメインを追加、同一 IP は自動マージ |
+| `remove <ip\|domain>` | IP（行全体）または単一ドメインを削除 |
+| `search <ip\|domain>` | 検索 — IP を入力するとドメインを返し、ドメインを入力すると IP を返す |
+| `show` | managed block の全エントリを表示（カラー＆整列） |
+| `show --json` | アクティブなエントリを JSON で出力 |
+| `show <name>` | 保存されたスナップショットの内容を表示 |
+| `enable <ip\|domain>` | 無効化されたエントリを有効化 |
+| `disable <ip\|domain>` | エントリを削除せずに無効化 |
+| `apply <file \| ->` | ファイルまたは stdin で managed block を置換（JSON 対応） |
+| `merge <file \| ->` | ファイルまたは stdin を managed block にマージ（JSON 対応） |
+| `clean` | managed block の全エントリをクリア |
+| `save <name>` | 現在の設定をスナップショットとして保存（`~/.hostfile/` に保存） |
+| `list` | 保存済みスナップショットの一覧表示 |
+| `load <name>` | スナップショットを読み込み |
+| `delete <name>` | スナップショットを削除 |
+| `version` | バージョン番号を表示 |
 
 ### グローバルフラグ
 

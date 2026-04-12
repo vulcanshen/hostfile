@@ -79,22 +79,23 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 
 | 명령어 | 설명 |
 |--------|------|
-| `hostfile init` | 기존 hosts 파일 인수 — 원본을 "origin"으로 백업하고 모든 항목을 managed block으로 변환 |
-| `hostfile add <ip> <domain1> [domain2...]` | 지정 IP에 도메인 추가, 동일 IP 자동 병합 |
-| `hostfile remove <ip\|domain>` | IP(전체 행) 또는 단일 도메인 제거 |
-| `hostfile search <ip\|domain>` | 검색 — IP 입력 시 도메인 반환, 도메인 입력 시 IP 반환 |
-| `hostfile show` | managed block의 모든 항목 표시 |
-| `hostfile show <name>` | 저장된 스냅샷의 내용 표시 |
-| `hostfile enable <ip\|domain>` | 비활성화된 항목 활성화 |
-| `hostfile disable <ip\|domain>` | 항목을 삭제하지 않고 비활성화 |
-| `hostfile apply <file>` | 외부 파일로 managed block 대체 |
-| `hostfile merge <file>` | 외부 파일을 managed block에 병합 |
-| `hostfile clean` | managed block의 모든 항목 초기화 |
-| `hostfile save <name>` | 현재 설정을 스냅샷으로 저장 (`~/.hostfile/`에 저장) |
-| `hostfile list` | 저장된 스냅샷 목록 표시 |
-| `hostfile load <name>` | 스냅샷 불러오기 |
-| `hostfile delete <name>` | 스냅샷 삭제 |
-| `hostfile version` | 버전 번호 표시 |
+| `init` | 기존 hosts 파일 인수 — 원본을 "origin"으로 백업하고 모든 항목을 managed block으로 변환 |
+| `add <ip> <domain1> [domain2...]` | 지정 IP에 도메인 추가, 동일 IP 자동 병합 |
+| `remove <ip\|domain>` | IP(전체 행) 또는 단일 도메인 제거 |
+| `search <ip\|domain>` | 검색 — IP 입력 시 도메인 반환, 도메인 입력 시 IP 반환 |
+| `show` | managed block의 모든 항목 표시 (컬러 및 정렬) |
+| `show --json` | 활성 항목을 JSON으로 출력 |
+| `show <name>` | 저장된 스냅샷의 내용 표시 |
+| `enable <ip\|domain>` | 비활성화된 항목 활성화 |
+| `disable <ip\|domain>` | 항목을 삭제하지 않고 비활성화 |
+| `apply <file \| ->` | 파일 또는 stdin으로 managed block 대체 (JSON 지원) |
+| `merge <file \| ->` | 파일 또는 stdin을 managed block에 병합 (JSON 지원) |
+| `clean` | managed block의 모든 항목 초기화 |
+| `save <name>` | 현재 설정을 스냅샷으로 저장 (`~/.hostfile/`에 저장) |
+| `list` | 저장된 스냅샷 목록 표시 |
+| `load <name>` | 스냅샷 불러오기 |
+| `delete <name>` | 스냅샷 삭제 |
+| `version` | 버전 번호 표시 |
 
 ### 글로벌 플래그
 

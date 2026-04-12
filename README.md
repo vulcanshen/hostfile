@@ -88,23 +88,23 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 
 | Command | Description |
 |---------|-------------|
-| `hostfile init` | Take over the current hosts file — backs up as "origin", reformats all entries into managed block |
-| `hostfile add <ip> <domain1> [domain2...]` | Add domains to an IP, auto-merge if the IP already exists |
-| `hostfile remove <ip\|domain>` | Remove an IP (entire line) or a single domain |
-| `hostfile search <ip\|domain>` | Search the managed block — IP returns domains, domain returns IP |
-| `hostfile show` | Show all entries in the managed block (colored, aligned) |
-| `hostfile show --json` | Output active entries as JSON |
-| `hostfile show <name>` | Show the contents of a saved snapshot |
-| `hostfile enable <ip\|domain>` | Re-enable a disabled entry |
-| `hostfile disable <ip\|domain>` | Disable an entry without deleting it |
-| `hostfile apply <file \| ->` | Replace the managed block with content from a file or stdin (supports JSON) |
-| `hostfile merge <file \| ->` | Merge content from a file or stdin into the managed block (supports JSON) |
-| `hostfile clean` | Clear all entries from the managed block |
-| `hostfile save <name>` | Save the managed block as a snapshot to `~/.hostfile/<name>.hostfile` |
-| `hostfile list` | List all saved snapshots |
-| `hostfile load <name>` | Load a saved snapshot into the managed block |
-| `hostfile delete <name>` | Delete a saved snapshot |
-| `hostfile version` | Print the version number |
+| `init` | Take over the current hosts file — backs up as "origin", reformats all entries into managed block |
+| `add <ip> <domain1> [domain2...]` | Add domains to an IP, auto-merge if the IP already exists |
+| `remove <ip\|domain>` | Remove an IP (entire line) or a single domain |
+| `search <ip\|domain>` | Search the managed block — IP returns domains, domain returns IP |
+| `show` | Show all entries in the managed block (colored, aligned) |
+| `show --json` | Output active entries as JSON |
+| `show <name>` | Show the contents of a saved snapshot |
+| `enable <ip\|domain>` | Re-enable a disabled entry |
+| `disable <ip\|domain>` | Disable an entry without deleting it |
+| `apply <file \| ->` | Replace the managed block with content from a file or stdin (supports JSON) |
+| `merge <file \| ->` | Merge content from a file or stdin into the managed block (supports JSON) |
+| `clean` | Clear all entries from the managed block |
+| `save <name>` | Save the managed block as a snapshot to `~/.hostfile/<name>.hostfile` |
+| `list` | List all saved snapshots |
+| `load <name>` | Load a saved snapshot into the managed block |
+| `delete <name>` | Delete a saved snapshot |
+| `version` | Print the version number |
 
 ### Global Flags
 
