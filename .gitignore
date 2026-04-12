@@ -19,9 +19,6 @@ vendor/
 dist/
 RELEASE_NOTES.md
 
-# Demo
-docs/demo.gif
-
 # Project private
 idea.md
 .claude/
