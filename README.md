@@ -112,6 +112,12 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 |------|-------------|
 | `--hosts-file <path>` | Path to hosts file (default: `/etc/hosts` or `C:\Windows\System32\drivers\etc\hosts`) |
 
+### Show Flags
+
+| Flag | Description |
+|------|-------------|
+| `--json` | Output active entries as JSON (`{"ip": ["domain1", "domain2"]}`) |
+
 ## Usage Examples
 
 ```bash

@@ -103,6 +103,12 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 |--------|------|
 | `--hosts-file <path>` | hosts 파일 경로 지정 (기본값: `/etc/hosts` 또는 `C:\Windows\System32\drivers\etc\hosts`) |
 
+### Show 플래그
+
+| 플래그 | 설명 |
+|--------|------|
+| `--json` | 활성 항목을 JSON으로 출력 (`{"ip": ["domain1", "domain2"]}`) |
+
 ## 사용 예시
 
 ```bash
@@ -114,6 +120,7 @@ hostfile add 192.168.1.100 web.local api.local
 
 # 현재 설정 표시
 hostfile show
+hostfile show --json            # JSON 출력 (활성만)
 
 # 검색
 hostfile search web.local
@@ -131,6 +138,10 @@ hostfile remove 192.168.1.100     # IP와 모든 도메인 제거
 # 파일에서 가져오기
 hostfile apply hosts.txt           # managed block 대체
 hostfile merge hosts.txt           # managed block에 병합
+
+# JSON에서 가져오기
+hostfile apply config.json         # JSON 형식 자동 감지
+hostfile show --json | hostfile apply -  # 파이프라인으로 전송
 
 # 저장 / 불러오기
 hostfile save my-snapshot

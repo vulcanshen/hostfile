@@ -103,6 +103,12 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 |------|------|
 | `--hosts-file <path>` | 指定 hosts 檔路徑（預設：`/etc/hosts` 或 `C:\Windows\System32\drivers\etc\hosts`） |
 
+### Show 參數
+
+| 參數 | 說明 |
+|------|------|
+| `--json` | 以 JSON 格式輸出 active 設定（`{"ip": ["domain1", "domain2"]}`） |
+
 ## 使用範例
 
 ```bash
@@ -114,6 +120,7 @@ hostfile add 192.168.1.100 web.local api.local
 
 # 查看目前設定
 hostfile show
+hostfile show --json            # JSON 輸出（僅 active）
 
 # 搜尋
 hostfile search web.local
@@ -131,6 +138,10 @@ hostfile remove 192.168.1.100     # 移除整個 IP 和其下所有 domain
 # 從檔案匯入
 hostfile apply hosts.txt           # 取代 managed block
 hostfile merge hosts.txt           # 合併進 managed block
+
+# 從 JSON 匯入
+hostfile apply config.json         # 自動偵測 JSON 格式
+hostfile show --json | hostfile apply -  # pipeline 傳輸
 
 # 儲存 / 載入
 hostfile save my-snapshot
