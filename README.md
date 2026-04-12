@@ -4,7 +4,7 @@
 
 A cross-platform CLI tool for managing your hosts file with ease.
 
-Designed for teams where technical staff guide non-technical members (PMs, SAs, FAEs) through hosts configuration — give them one command, they copy-paste and hit Enter.
+Designed to be simple enough that anyone can use it — just copy-paste a command and hit Enter.
 
 ## Features
 
