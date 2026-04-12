@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.3.0] - 2026-04-12
+
+- Add man pages (auto-generated from cobra commands, included in release archives and deb/rpm)
+- Add tldr page (`docs/tldr.md`)
+- Add uninstall scripts (`uninstall.sh`, `uninstall.ps1`)
+- Add duplicate domain detection in `add` command — shows "already exists" instead of false "added"
+- Update install.sh to install man pages on Unix systems
+
 ## [v1.2.3] - 2026-04-12
 
 - Fix `writeBlock()` missing newline guard — prevents block marker from merging with preceding content

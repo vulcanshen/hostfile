@@ -5,6 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/vulcanshen/hostfile/manager"
+	"github.com/vulcanshen/hostfile/parser"
 )
 
 var addCmd = &cobra.Command{
@@ -20,7 +21,31 @@ var addCmd = &cobra.Command{
 			exitWithError(err)
 		}
 
-		conflicts, err := manager.Add(block, ip, domains)
+		// check which domains already exist on this IP
+		var newDomains, existingDomains []string
+		for _, d := range domains {
+			found := false
+			for _, entry := range block.Entries {
+				if entry.IP == ip && entry.DisableType == parser.DisableNone && manager.ContainsDomain(entry.Domains, d) {
+					found = true
+					break
+				}
+			}
+			if found {
+				existingDomains = append(existingDomains, d)
+			} else {
+				newDomains = append(newDomains, d)
+			}
+		}
+
+		if len(newDomains) == 0 {
+			for _, d := range existingDomains {
+				fmt.Printf("%s -> %s already exists\n", d, ip)
+			}
+			return
+		}
+
+		conflicts, err := manager.Add(block, ip, newDomains)
 		if err != nil {
 			exitWithError(err)
 		}
@@ -30,7 +55,7 @@ var addCmd = &cobra.Command{
 				fmt.Printf("domain %q is already mapped to %s\n", c.Domain, c.CurrentIP)
 			}
 			if confirm("Move these domains to " + ip + "?") {
-				if err := manager.AddForce(block, ip, domains); err != nil {
+				if err := manager.AddForce(block, ip, newDomains); err != nil {
 					exitWithError(err)
 				}
 			} else {
@@ -42,8 +67,11 @@ var addCmd = &cobra.Command{
 		if err := writeBlock(before, block, after); err != nil {
 			exitWithError(err)
 		}
-		for _, d := range domains {
+		for _, d := range newDomains {
 			fmt.Printf("added %s -> %s\n", d, ip)
+		}
+		for _, d := range existingDomains {
+			fmt.Printf("%s -> %s already exists\n", d, ip)
 		}
 	},
 }

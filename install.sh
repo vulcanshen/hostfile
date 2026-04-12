@@ -66,6 +66,19 @@ else
   chmod +x "$INSTALL_DIR/hostfile"
 fi
 
+# Install man pages (Unix only, skip on Git Bash)
+if [ "$OS" != "windows" ]; then
+  if [ -d "$TMPDIR/docs/man" ]; then
+    if [ "$(id -u)" = "0" ]; then
+      MAN_DIR="/usr/local/share/man/man1"
+    else
+      MAN_DIR="$HOME/.local/share/man/man1"
+    fi
+    mkdir -p "$MAN_DIR"
+    cp "$TMPDIR"/docs/man/*.1 "$MAN_DIR/" 2>/dev/null || true
+  fi
+fi
+
 # Cleanup
 rm -rf "$TMPDIR"
 

@@ -48,7 +48,15 @@ Windows (PowerShell):
 irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/install.ps1 | iex
 ```
 
-To update, run the same command again.
+To update, run the same command again. To uninstall:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.sh | sh
+```
+
+```powershell
+irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | iex
+```
 
 > **Windows Note**: hostfile modifies the system hosts file, which requires administrator privileges.
 > On Windows 11 24H2+, `sudo` is built-in and hostfile will use it automatically.

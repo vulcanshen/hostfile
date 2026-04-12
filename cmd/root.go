@@ -23,6 +23,11 @@ var rootCmd = &cobra.Command{
 	Long:  "A CLI tool for managing your hosts file with ease.",
 }
 
+// RootCmd returns the root command for documentation generation.
+func RootCmd() *cobra.Command {
+	return rootCmd
+}
+
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintln(os.Stderr, err)

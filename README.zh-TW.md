@@ -46,7 +46,15 @@ Windows（PowerShell）：
 irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/install.ps1 | iex
 ```
 
-要更新的話，再執行一次同樣的指令就好。
+要更新的話，再執行一次同樣的指令就好。解除安裝：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.sh | sh
+```
+
+```powershell
+irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | iex
+```
 
 > **Windows 注意事項**：hostfile 會修改系統 hosts 檔，需要管理員權限。
 > Windows 11 24H2 以上版本內建 `sudo`，hostfile 會自動使用。
