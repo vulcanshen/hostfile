@@ -2,7 +2,9 @@ package privilege
 
 import (
 	"bytes"
+	"encoding/base64"
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"runtime"
@@ -36,7 +38,7 @@ func writeWithEscalationUnix(path string, content []byte) error {
 	if _, err := exec.LookPath("sudo"); err == nil {
 		cmd := exec.Command("sudo", "tee", path)
 		cmd.Stdin = bytes.NewReader(content)
-		cmd.Stdout = nil
+		cmd.Stdout = io.Discard
 		cmd.Stderr = os.Stderr
 		return cmd.Run()
 	}
@@ -45,7 +47,7 @@ func writeWithEscalationUnix(path string, content []byte) error {
 	if _, err := exec.LookPath("doas"); err == nil {
 		cmd := exec.Command("doas", "tee", path)
 		cmd.Stdin = bytes.NewReader(content)
-		cmd.Stdout = nil
+		cmd.Stdout = io.Discard
 		cmd.Stderr = os.Stderr
 		return cmd.Run()
 	}
@@ -54,20 +56,23 @@ func writeWithEscalationUnix(path string, content []byte) error {
 }
 
 func writeWithEscalationWindows(path string, content []byte) error {
+	// encode content as base64 to safely pass through PowerShell
+	encoded := base64.StdEncoding.EncodeToString(content)
+	psCmd := fmt.Sprintf(
+		"[IO.File]::WriteAllBytes('%s', [Convert]::FromBase64String('%s'))",
+		path, encoded,
+	)
+
 	// try sudo (Windows 24H2+)
 	if _, err := exec.LookPath("sudo"); err == nil {
-		cmd := exec.Command("sudo", "tee", path)
-		cmd.Stdin = bytes.NewReader(content)
-		cmd.Stdout = nil
+		cmd := exec.Command("sudo", "powershell", "-NoProfile", "-Command", psCmd)
 		cmd.Stderr = os.Stderr
 		return cmd.Run()
 	}
 
 	// try gsudo
 	if _, err := exec.LookPath("gsudo"); err == nil {
-		cmd := exec.Command("gsudo", "tee", path)
-		cmd.Stdin = bytes.NewReader(content)
-		cmd.Stdout = nil
+		cmd := exec.Command("gsudo", "powershell", "-NoProfile", "-Command", psCmd)
 		cmd.Stderr = os.Stderr
 		return cmd.Run()
 	}

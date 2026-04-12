@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.2.3] - 2026-04-12
+
+- Fix `writeBlock()` missing newline guard — prevents block marker from merging with preceding content
+- Fix `sudo tee` stdout leakage on Unix — output no longer echoed to terminal
+- Fix Windows privilege escalation — use PowerShell instead of `tee` (which doesn't exist on Windows)
+
 ## [v1.2.2] - 2026-04-12
 
 ### Bug Fixes

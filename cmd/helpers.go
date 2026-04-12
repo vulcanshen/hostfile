@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/vulcanshen/hostfile/manager"
 	"github.com/vulcanshen/hostfile/parser"
@@ -16,6 +17,11 @@ func readBlock() (string, *parser.ManagedBlock, string, error) {
 
 // writeBlock writes the hosts file back, using privilege escalation if needed.
 func writeBlock(before string, block *parser.ManagedBlock, after string) error {
+	// ensure before ends with newline so block marker starts on its own line
+	if before != "" && !strings.HasSuffix(before, "\n") {
+		before += "\n"
+	}
+
 	formatted := parser.FormatBlock(block)
 	var content string
 	if before == "" && after == "" {
