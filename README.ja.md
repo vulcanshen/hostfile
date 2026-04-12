@@ -8,12 +8,16 @@
 
 - **Add / Remove** — IP とドメインのマッピング管理、同一 IP の自動マージ
 - **Enable / Disable** — エントリを削除せずに有効/無効を切り替え（IP 単位またはドメイン単位）
-- **Search / Show** — 現在の設定を検索・表示
-- **Apply / Merge** — 外部ファイルからインポート（置換またはマージ）
+- **Search / Show** — 現在の設定を検索・表示、カラー＆整列出力対応
+- **Apply / Merge** — ファイルまたは stdin からインポート、JSON と hosts 形式を自動検出＆バリデーション
+- **JSON I/O** — `show --json` でエクスポート、`apply -` / `merge -` でパイプラインからインポート
 - **Save / Load** — 設定スナップショットの保存と読み込み
 - **Clean** — すべての設定を一括クリア
-- IPv4 + IPv6 対応
+- Managed block 分離 — 手書きの内容には一切触れません
+- 自動権限昇格（sudo / doas / gsudo）
+- IPv4 + IPv6 対応（ゾーン ID 含む）
 - シェル補完（bash, zsh, fish, powershell）
+- クロスプラットフォーム：macOS、Linux、Windows
 
 ## 仕組み
 

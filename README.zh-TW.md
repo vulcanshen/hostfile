@@ -8,12 +8,16 @@
 
 - **Add / Remove** — 管理 IP 與 domain 的對應，自動合併相同 IP
 - **Enable / Disable** — 停用 / 啟用設定，不需要刪除（可針對整個 IP 或單一 domain）
-- **Search / Show** — 查詢與顯示目前的設定
-- **Apply / Merge** — 從外部檔案匯入（取代或合併）
+- **Search / Show** — 查詢與顯示目前的設定，支援著色對齊輸出
+- **Apply / Merge** — 從檔案或 stdin 匯入，自動偵測 JSON 和 hosts 格式，含格式驗證
+- **JSON I/O** — `show --json` 匯出、`apply -` / `merge -` 透過 pipeline 匯入
 - **Save / Load** — 儲存與載入設定快照
 - **Clean** — 一鍵清空所有設定
-- 支援 IPv4 + IPv6
+- Managed block 隔離 — 不會動到你手寫的內容
+- 自動提權（sudo / doas / gsudo）
+- 支援 IPv4 + IPv6（含 zone ID）
 - Shell 自動補全（bash, zsh, fish, powershell）
+- 跨平台：macOS、Linux、Windows
 
 ## 運作原理
 

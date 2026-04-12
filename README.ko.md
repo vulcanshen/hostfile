@@ -8,12 +8,16 @@
 
 - **Add / Remove** — IP와 도메인 매핑 관리, 동일 IP 자동 병합
 - **Enable / Disable** — 항목을 삭제하지 않고 활성화/비활성화 전환 (IP 단위 또는 도메인 단위)
-- **Search / Show** — 현재 설정 검색 및 표시
-- **Apply / Merge** — 외부 파일에서 가져오기 (대체 또는 병합)
+- **Search / Show** — 현재 설정 검색 및 표시, 컬러 및 정렬 출력 지원
+- **Apply / Merge** — 파일 또는 stdin에서 가져오기, JSON 및 hosts 형식 자동 감지 및 검증
+- **JSON I/O** — `show --json`으로 내보내기, `apply -` / `merge -`로 파이프라인에서 가져오기
 - **Save / Load** — 설정 스냅샷 저장 및 불러오기
 - **Clean** — 모든 설정을 한 번에 초기화
-- IPv4 + IPv6 지원
+- Managed block 격리 — 수동으로 작성한 내용은 절대 건드리지 않음
+- 자동 권한 상승 (sudo / doas / gsudo)
+- IPv4 + IPv6 지원 (zone ID 포함)
 - 셸 자동 완성 (bash, zsh, fish, powershell)
+- 크로스 플랫폼: macOS, Linux, Windows
 
 ## 작동 방식
 
