@@ -23,7 +23,8 @@ var saveCmd = &cobra.Command{
 		if err := backup.Create(name, block); err != nil {
 			exitWithError(err)
 		}
-		fmt.Printf("saved %q (%d entries)\n", name, len(block.Entries))
+		path, _ := backup.Path(name)
+		fmt.Printf("saved %q (%d entries) to: %s\n", name, len(block.Entries), path)
 	},
 }
 

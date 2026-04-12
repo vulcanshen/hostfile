@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.2.1] - 2026-04-12
+
+- Add PowerShell one-liner installer for Windows (`install.ps1`)
+- Add shell installer for macOS / Linux / Git Bash (`install.sh`)
+- Add Traditional Chinese README (`README.zh-TW.md`)
+- Add Windows administrator privileges note to installation docs
+- Improve `init` to merge outside entries when managed block already exists
+- Auto-generate timestamped origin name (`origin-YYYYMMDD_HHMMSS`) on repeated init
+- Show full file path after `save` and `init`
+- Reorganize installation docs into Quick Install and Package Managers sections
+
 ## [v1.2.0] - 2026-04-12
 
 - Rename `backup` → `save`, `backup restore` → `load`, `backup delete` → `delete` — all top-level commands

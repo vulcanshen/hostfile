@@ -151,6 +151,33 @@ func RestoreRaw(name string) ([]byte, error) {
 	return data, nil
 }
 
+// Path returns the full file path for a backup name.
+func Path(name string) (string, error) {
+	base, err := backupBasePathFn()
+	if err != nil {
+		return "", err
+	}
+	return filepath.Join(base, name+backupExt), nil
+}
+
+// Exists checks if a backup with the given name exists.
+func Exists(name string) (bool, error) {
+	base, err := backupBasePathFn()
+	if err != nil {
+		return false, err
+	}
+
+	path := filepath.Join(base, name+backupExt)
+	_, err = os.Stat(path)
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
 // Delete removes a backup file.
 func Delete(name string) error {
 	base, err := backupBasePathFn()

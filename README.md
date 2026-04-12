@@ -80,7 +80,7 @@ To update, run the same command again.
 | `hostfile apply <file>` | Replace the managed block with content from a file |
 | `hostfile merge <file>` | Merge content from a file into the managed block |
 | `hostfile clean` | Clear all entries from the managed block |
-| `hostfile save <name>` | Save the managed block to `~/.hostfile/<name>.hostfile` |
+| `hostfile save <name>` | Save the managed block as a snapshot to `~/.hostfile/<name>.hostfile` |
 | `hostfile list` | List all saved snapshots |
 | `hostfile load <name>` | Load a saved snapshot into the managed block |
 | `hostfile delete <name>` | Delete a saved snapshot |
