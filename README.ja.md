@@ -63,6 +63,15 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 > **Windows の注意事項**：hostfile はシステムの hosts ファイルを変更するため、管理者権限が必要です。
 > Windows 11 24H2 以降は `sudo` が組み込まれており、hostfile が自動的に使用します。
 > それ以前のバージョンでは [gsudo](https://github.com/gerardog/gsudo) をインストールするか、PowerShell を管理者として実行してください。
+>
+> gsudo のインストール：
+> ```powershell
+> # PowerShell ワンライナー
+> irm https://raw.githubusercontent.com/gerardog/gsudo/master/installgsudo.ps1 | iex
+>
+> # または Scoop
+> scoop install gsudo
+> ```
 
 ### パッケージマネージャー
 

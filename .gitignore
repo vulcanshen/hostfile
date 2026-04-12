@@ -15,6 +15,9 @@ Thumbs.db
 # Go
 vendor/
 
+# Coverage
+coverage.out
+
 # GoReleaser
 dist/
 RELEASE_NOTES.md

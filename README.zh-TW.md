@@ -63,6 +63,15 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 > **Windows 注意事項**：hostfile 會修改系統 hosts 檔，需要管理員權限。
 > Windows 11 24H2 以上版本內建 `sudo`，hostfile 會自動使用。
 > 舊版 Windows 請安裝 [gsudo](https://github.com/gerardog/gsudo)，或以系統管理員身分開啟 PowerShell。
+>
+> 安裝 gsudo：
+> ```powershell
+> # PowerShell 一鍵安裝
+> irm https://raw.githubusercontent.com/gerardog/gsudo/master/installgsudo.ps1 | iex
+>
+> # 或透過 Scoop
+> scoop install gsudo
+> ```
 
 ### 套件管理器
 

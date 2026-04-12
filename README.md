@@ -2,8 +2,9 @@
 
 [![GitHub Release](https://img.shields.io/github/v/release/vulcanshen/hostfile)](https://github.com/vulcanshen/hostfile/releases)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/vulcanshen/hostfile)](https://go.dev/)
-[![CI](https://img.shields.io/github/actions/workflow/status/vulcanshen/hostfile/release.yml?label=CI)](https://github.com/vulcanshen/hostfile/actions)
+[![CI](https://img.shields.io/github/actions/workflow/status/vulcanshen/hostfile/ci.yml?label=CI)](https://github.com/vulcanshen/hostfile/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/vulcanshen/hostfile)](https://goreportcard.com/report/github.com/vulcanshen/hostfile)
+[![codecov](https://codecov.io/gh/vulcanshen/hostfile/branch/main/graph/badge.svg)](https://codecov.io/gh/vulcanshen/hostfile)
 [![License](https://img.shields.io/github/license/vulcanshen/hostfile)](LICENSE)
 
 [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
@@ -72,7 +73,16 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 
 > **Windows Note**: hostfile modifies the system hosts file, which requires administrator privileges.
 > On Windows 11 24H2+, `sudo` is built-in and hostfile will use it automatically.
-> On older versions, either install [gsudo](https://github.com/gerardog/gsudo) or run PowerShell as Administrator.
+> On older versions, install [gsudo](https://github.com/gerardog/gsudo) or run PowerShell as Administrator.
+>
+> Install gsudo:
+> ```powershell
+> # PowerShell one-liner
+> irm https://raw.githubusercontent.com/gerardog/gsudo/master/installgsudo.ps1 | iex
+>
+> # Or via Scoop
+> scoop install gsudo
+> ```
 
 ### Package Managers
 
