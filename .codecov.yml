@@ -1,0 +1,13 @@
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+    patch:
+      default:
+        target: auto
+
+ignore:
+  - "main.go"
+  - "privilege/privilege.go"  # escalation paths require sudo/gsudo, untestable in CI
+  - "docs/**"
