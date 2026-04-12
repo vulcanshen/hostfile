@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.4.1] - 2026-04-12
+
+- Add stdin support for `apply` and `merge` — use `-` to read from pipe
+- Add JSON input support for `apply` and `merge` — auto-detected
+- Add input validation for `apply` and `merge` — rejects empty, invalid JSON, bad IPs, and unparseable hosts format before touching the hosts file
+
 ## [v1.4.0] - 2026-04-12
 
 - Add colored and aligned output for `show` and `search` commands (auto-disabled when piped)
