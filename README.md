@@ -34,81 +34,36 @@ hostfile only touches its own **managed block** inside your hosts file — it ne
 
 ## Installation
 
-### Quick Install (macOS / Linux / Git Bash)
+### Quick Install
+
+macOS / Linux / Git Bash:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/vulcanshen/hostfile/main/install.sh | sh
 ```
 
-Auto-detects your OS and architecture, downloads the latest release, and installs to `~/.local/bin` (or `/usr/local/bin` if root). On Git Bash for Windows, installs to `~/bin`.
-
-### Homebrew (macOS / Linux)
-
-```bash
-brew install vulcanshen/tap/hostfile
-```
-
-### Windows (PowerShell one-liner)
-
-Open PowerShell and run:
+Windows (PowerShell):
 
 ```powershell
 irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/install.ps1 | iex
 ```
 
-This downloads the latest release, extracts it to `%LOCALAPPDATA%\hostfile`, and adds it to your PATH automatically. Restart your terminal after installation.
-
 To update, run the same command again.
 
-> **Note**: hostfile modifies the system hosts file, which requires administrator privileges.
+> **Windows Note**: hostfile modifies the system hosts file, which requires administrator privileges.
 > On Windows 11 24H2+, `sudo` is built-in and hostfile will use it automatically.
 > On older versions, either install [gsudo](https://github.com/gerardog/gsudo) or run PowerShell as Administrator.
 
-### Scoop (Windows)
+### Package Managers
 
-If you already use [Scoop](https://scoop.sh):
+| Platform | Command |
+|----------|---------|
+| Homebrew (macOS / Linux) | `brew install vulcanshen/tap/hostfile` |
+| Scoop (Windows) | `scoop bucket add vulcanshen https://github.com/vulcanshen/scoop-bucket && scoop install hostfile` |
+| Debian / Ubuntu | `sudo dpkg -i hostfile_<version>_linux_amd64.deb` |
+| RHEL / Fedora | `sudo rpm -i hostfile_<version>_linux_amd64.rpm` |
 
-```powershell
-scoop bucket add vulcanshen https://github.com/vulcanshen/scoop-bucket
-scoop install hostfile
-```
-
-### Debian / Ubuntu (apt)
-
-```bash
-# Download the .deb package from the latest release
-curl -LO https://github.com/vulcanshen/hostfile/releases/latest/download/hostfile_<version>_linux_amd64.deb
-
-# Install
-sudo dpkg -i hostfile_<version>_linux_amd64.deb
-```
-
-Replace `<version>` with the version number (e.g. `1.2.0`). For ARM64 systems, use `linux_arm64.deb` instead.
-
-### RHEL / Fedora (rpm)
-
-```bash
-# Download the .rpm package from the latest release
-curl -LO https://github.com/vulcanshen/hostfile/releases/latest/download/hostfile_<version>_linux_amd64.rpm
-
-# Install
-sudo rpm -i hostfile_<version>_linux_amd64.rpm
-```
-
-Replace `<version>` with the version number (e.g. `1.2.0`). For ARM64 systems, use `linux_arm64.rpm` instead.
-
-### Download Binary
-
-Download the archive for your platform from the [Releases page](https://github.com/vulcanshen/hostfile/releases), then extract and move to your PATH:
-
-```bash
-# Example for Linux amd64
-curl -LO https://github.com/vulcanshen/hostfile/releases/latest/download/hostfile_<version>_linux_amd64.tar.gz
-tar xzf hostfile_<version>_linux_amd64.tar.gz
-sudo mv hostfile /usr/local/bin/
-```
-
-Available platforms: `linux`, `darwin`, `windows` × `amd64`, `arm64`.
+`.deb` and `.rpm` packages can be downloaded from the [Releases page](https://github.com/vulcanshen/hostfile/releases). Replace `<version>` with the version number (e.g. `1.2.0`). For ARM64 systems, use `linux_arm64` instead of `linux_amd64`.
 
 ## Commands
 
