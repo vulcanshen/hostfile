@@ -38,7 +38,19 @@ hostfile only touches its own **managed block** inside your hosts file — it ne
 brew install vulcanshen/tap/hostfile
 ```
 
+### Windows (PowerShell one-liner)
+
+Open PowerShell and run:
+
+```powershell
+irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/install.ps1 | iex
+```
+
+This downloads the latest release, extracts it to `%LOCALAPPDATA%\hostfile`, and adds it to your PATH automatically. Restart your terminal after installation.
+
 ### Scoop (Windows)
+
+If you already use [Scoop](https://scoop.sh):
 
 ```powershell
 scoop bucket add vulcanshen https://github.com/vulcanshen/scoop-bucket
