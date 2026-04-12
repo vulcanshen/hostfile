@@ -1,5 +1,7 @@
 # hostfile
 
+[繁體中文](README.zh-TW.md)
+
 A cross-platform CLI tool for managing your hosts file with ease.
 
 Designed for teams where technical staff guide non-technical members (PMs, SAs, FAEs) through hosts configuration — give them one command, they copy-paste and hit Enter.
@@ -47,6 +49,12 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/install.ps1 | iex
 ```
 
 This downloads the latest release, extracts it to `%LOCALAPPDATA%\hostfile`, and adds it to your PATH automatically. Restart your terminal after installation.
+
+To update, run the same command again.
+
+> **Note**: hostfile modifies the system hosts file, which requires administrator privileges.
+> On Windows 11 24H2+, `sudo` is built-in and hostfile will use it automatically.
+> On older versions, either install [gsudo](https://github.com/gerardog/gsudo) or run PowerShell as Administrator.
 
 ### Scoop (Windows)
 
