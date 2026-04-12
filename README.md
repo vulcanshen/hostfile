@@ -34,6 +34,14 @@ hostfile only touches its own **managed block** inside your hosts file — it ne
 
 ## Installation
 
+### Quick Install (macOS / Linux / Git Bash)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/vulcanshen/hostfile/main/install.sh | sh
+```
+
+Auto-detects your OS and architecture, downloads the latest release, and installs to `~/.local/bin` (or `/usr/local/bin` if root). On Git Bash for Windows, installs to `~/bin`.
+
 ### Homebrew (macOS / Linux)
 
 ```bash
