@@ -55,6 +55,8 @@ brews:
       token: "{{ .Env.ACTION_TOKEN }}"
     homepage: "https://github.com/vulcanshen/hostfile"
     description: "Cross-platform hosts file manager CLI"
+    extra_install: |
+      man1.install Dir["docs/man/*.1"]
 
 scoops:
   - repository:
