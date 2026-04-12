@@ -176,10 +176,10 @@ func TestAddForce(t *testing.T) {
 	if len(block.Entries) != 2 {
 		t.Fatalf("expected 2 entries, got %d", len(block.Entries))
 	}
-	if containsDomain(block.Entries[0].Domains, "web.local") {
+	if ContainsDomain(block.Entries[0].Domains, "web.local") {
 		t.Error("web.local should have been removed from 10.0.0.1")
 	}
-	if !containsDomain(block.Entries[1].Domains, "web.local") {
+	if !ContainsDomain(block.Entries[1].Domains, "web.local") {
 		t.Error("web.local should be on 10.0.0.2")
 	}
 }
@@ -304,7 +304,7 @@ func TestEnable_Domain(t *testing.T) {
 	if len(block.Entries) != 1 {
 		t.Fatalf("expected 1 entry (merged), got %d", len(block.Entries))
 	}
-	if !containsDomain(block.Entries[0].Domains, "web.local") {
+	if !ContainsDomain(block.Entries[0].Domains, "web.local") {
 		t.Error("expected web.local to be re-added")
 	}
 }
@@ -358,7 +358,7 @@ func TestDisable_Domain(t *testing.T) {
 		t.Error("expected Done=true")
 	}
 	// web.local should be removed from the entry and added as disable-domain
-	if containsDomain(block.Entries[0].Domains, "web.local") {
+	if ContainsDomain(block.Entries[0].Domains, "web.local") {
 		t.Error("web.local should have been removed from normal entry")
 	}
 	if len(block.Entries) != 2 {
@@ -388,6 +388,132 @@ func TestDisable_NotFound(t *testing.T) {
 	_, err := Disable(block, "10.0.0.2")
 	if err == nil {
 		t.Error("expected error for not-found IP")
+	}
+}
+
+// --- AddForce with disabled entries ---
+
+func TestAddForce_WithDisabledDomain(t *testing.T) {
+	block := newBlock(
+		normalEntry("10.0.0.1", "api.local"),
+		disabledDomainEntry("10.0.0.1", "web.local"),
+	)
+	err := AddForce(block, "10.0.0.2", []string{"web.local"})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	// disabled-domain entry for web.local should be removed, added to 10.0.0.2
+	for _, entry := range block.Entries {
+		if entry.DisableType == parser.DisableDomain && len(entry.Domains) > 0 && entry.Domains[0] == "web.local" {
+			t.Error("disabled-domain entry for web.local should have been removed")
+		}
+	}
+	found := false
+	for _, entry := range block.Entries {
+		if entry.IP == "10.0.0.2" && ContainsDomain(entry.Domains, "web.local") {
+			found = true
+		}
+	}
+	if !found {
+		t.Error("web.local should be on 10.0.0.2")
+	}
+}
+
+func TestAddForce_RemovesLastDomain(t *testing.T) {
+	block := newBlock(normalEntry("10.0.0.1", "web.local"))
+	err := AddForce(block, "10.0.0.2", []string{"web.local"})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	// 10.0.0.1 entry should be gone (had only one domain)
+	for _, entry := range block.Entries {
+		if entry.IP == "10.0.0.1" {
+			t.Error("10.0.0.1 entry should have been removed")
+		}
+	}
+	if len(block.Entries) != 1 || block.Entries[0].IP != "10.0.0.2" {
+		t.Errorf("expected single entry for 10.0.0.2, got %+v", block.Entries)
+	}
+}
+
+// --- Remove edge cases ---
+
+func TestRemove_NotFound(t *testing.T) {
+	block := newBlock(normalEntry("10.0.0.1", "web.local"))
+	result := Remove(block, "nonexistent.local")
+	if result.Removed || result.LastDomain {
+		t.Error("expected no removal for nonexistent domain")
+	}
+}
+
+func TestRemove_IPNotFound(t *testing.T) {
+	block := newBlock(normalEntry("10.0.0.1", "web.local"))
+	result := Remove(block, "10.0.0.99")
+	if result.Removed {
+		t.Error("expected no removal for nonexistent IP")
+	}
+}
+
+// --- Search edge cases ---
+
+func TestSearch_NotFound(t *testing.T) {
+	block := newBlock(normalEntry("10.0.0.1", "web.local"))
+	results := Search(block, "nonexistent.local")
+	if len(results) != 0 {
+		t.Errorf("expected 0 results, got %d", len(results))
+	}
+}
+
+// --- Enable/Disable edge cases ---
+
+func TestEnable_DomainNotFound(t *testing.T) {
+	block := newBlock(normalEntry("10.0.0.1", "web.local"))
+	err := Enable(block, "nonexistent.local")
+	if err == nil {
+		t.Error("expected error for not-found domain")
+	}
+}
+
+func TestDisable_DomainNotFound(t *testing.T) {
+	block := newBlock(normalEntry("10.0.0.1", "web.local"))
+	_, err := Disable(block, "nonexistent.local")
+	if err == nil {
+		t.Error("expected error for not-found domain")
+	}
+}
+
+func TestDisableIPConfirmed(t *testing.T) {
+	block := newBlock(normalEntry("10.0.0.1", "web.local"))
+	DisableIPConfirmed(block, "10.0.0.1")
+	if block.Entries[0].DisableType != parser.DisableIP {
+		t.Error("expected entry to be disabled after confirmation")
+	}
+}
+
+// --- ContainsDomain ---
+
+func TestContainsDomain(t *testing.T) {
+	if !ContainsDomain([]string{"a", "b", "c"}, "b") {
+		t.Error("expected true")
+	}
+	if ContainsDomain([]string{"a", "b", "c"}, "d") {
+		t.Error("expected false")
+	}
+	if ContainsDomain(nil, "a") {
+		t.Error("expected false for nil slice")
+	}
+}
+
+// --- Merge edge cases ---
+
+func TestMerge_DisabledEntry(t *testing.T) {
+	block := newBlock(normalEntry("10.0.0.1", "web.local"))
+	Merge(block, "#[disable-ip] 10.0.0.2  api.local")
+	if len(block.Entries) != 2 {
+		t.Fatalf("expected 2 entries, got %d", len(block.Entries))
+	}
+	if block.Entries[1].DisableType != parser.DisableIP {
+		t.Error("expected merged disabled entry to remain disabled")
 	}
 }
 

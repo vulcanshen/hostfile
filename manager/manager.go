@@ -109,7 +109,7 @@ func Add(block *parser.ManagedBlock, ip string, domains []string) ([]ConflictInf
 	for i, entry := range block.Entries {
 		if entry.IP == ip && entry.DisableType == parser.DisableNone {
 			for _, domain := range domains {
-				if !containsDomain(entry.Domains, domain) {
+				if !ContainsDomain(entry.Domains, domain) {
 					block.Entries[i].Domains = append(block.Entries[i].Domains, domain)
 				}
 			}
@@ -378,7 +378,7 @@ func Merge(block *parser.ManagedBlock, content string) {
 		for i, existing := range block.Entries {
 			if existing.IP == newEntry.IP && existing.DisableType == parser.DisableNone {
 				for _, d := range newEntry.Domains {
-					if !containsDomain(existing.Domains, d) {
+					if !ContainsDomain(existing.Domains, d) {
 						block.Entries[i].Domains = append(block.Entries[i].Domains, d)
 					}
 				}
@@ -394,7 +394,8 @@ func Merge(block *parser.ManagedBlock, content string) {
 
 // helper functions
 
-func containsDomain(domains []string, domain string) bool {
+// ContainsDomain checks if a domain exists in the given slice.
+func ContainsDomain(domains []string, domain string) bool {
 	for _, d := range domains {
 		if d == domain {
 			return true

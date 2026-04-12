@@ -32,7 +32,7 @@ var cleanCmd = &cobra.Command{
 		if err := writeBlock(before, block, after); err != nil {
 			exitWithError(err)
 		}
-		fmt.Println("managed block cleared")
+		fmt.Println("cleared managed block")
 	},
 }
 

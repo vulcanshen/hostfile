@@ -93,7 +93,7 @@ func Restore(name string) (*parser.ManagedBlock, error) {
 	path := filepath.Join(base, name+backupExt)
 	data, err := os.ReadFile(path)
 	if err != nil {
-		return nil, fmt.Errorf("backup %q not found: %w", name, err)
+		return nil, fmt.Errorf("save %q not found: %w", name, err)
 	}
 
 	content := string(data)
@@ -146,7 +146,7 @@ func RestoreRaw(name string) ([]byte, error) {
 	path := filepath.Join(base, name+backupExt)
 	data, err := os.ReadFile(path)
 	if err != nil {
-		return nil, fmt.Errorf("backup %q not found: %w", name, err)
+		return nil, fmt.Errorf("save %q not found: %w", name, err)
 	}
 	return data, nil
 }
@@ -187,7 +187,7 @@ func Delete(name string) error {
 
 	path := filepath.Join(base, name+backupExt)
 	if _, err := os.Stat(path); os.IsNotExist(err) {
-		return fmt.Errorf("backup %q not found", name)
+		return fmt.Errorf("save %q not found", name)
 	}
 	return os.Remove(path)
 }

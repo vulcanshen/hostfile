@@ -19,5 +19,8 @@ func confirm(message string) bool {
 		answer := strings.TrimSpace(strings.ToLower(scanner.Text()))
 		return answer == "y" || answer == "yes"
 	}
+	if err := scanner.Err(); err != nil {
+		fmt.Fprintf(os.Stderr, "error reading input: %v\n", err)
+	}
 	return false
 }

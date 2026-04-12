@@ -5,7 +5,6 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/vulcanshen/hostfile/backup"
-	"github.com/vulcanshen/hostfile/manager"
 	"github.com/vulcanshen/hostfile/privilege"
 )
 
@@ -36,7 +35,7 @@ var loadCmd = &cobra.Command{
 			if err := privilege.WriteFilePrivileged(hostsFile, data); err != nil {
 				exitWithError(err)
 			}
-			fmt.Printf("loaded raw snapshot %q\n", name)
+			fmt.Printf("loaded %q (raw)\n", name)
 			return
 		}
 
@@ -50,7 +49,7 @@ var loadCmd = &cobra.Command{
 			exitWithError(err)
 		}
 
-		if err := manager.WriteHostsFile(hostsFile, before, restored, after); err != nil {
+		if err := writeBlock(before, restored, after); err != nil {
 			exitWithError(err)
 		}
 		fmt.Printf("loaded %q (%d entries)\n", name, len(restored.Entries))

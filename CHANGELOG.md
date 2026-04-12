@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.2.2] - 2026-04-12
+
+### Bug Fixes
+
+- Fix `load` command missing privilege escalation for non-raw snapshots
+- Fix ignored error from `backup.Path()` in `save` and `init` commands
+- Remove duplicate `containsDomain()` function, consolidate into `manager.ContainsDomain()`
+
+### Improvements
+
+- Add `scanner.Err()` check in prompt input handling
+- Rename error messages from "backup" to "save" to match new command names
+- Unify output message format across all commands
+
+### Tests
+
+- Add tests for `backup.CreateRaw`, `RestoreRaw`, `IsRaw`, `Exists`, `Path`
+- Add tests for `AddForce` with disabled entries, edge cases for `Remove`, `Search`, `Enable`, `Disable`
+- Add tests for `ContainsDomain` and `Merge` with disabled entries
+
 ## [v1.2.1] - 2026-04-12
 
 - Add PowerShell one-liner installer for Windows (`install.ps1`)

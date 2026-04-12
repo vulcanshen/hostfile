@@ -57,7 +57,7 @@ If a managed block already exists, entries outside the block are merged in.`,
 					for i, existing := range block.Entries {
 						if existing.IP == entry.IP && existing.DisableType == parser.DisableNone {
 							for _, d := range entry.Domains {
-								if !containsDomain(existing.Domains, d) {
+								if !manager.ContainsDomain(existing.Domains, d) {
 									block.Entries[i].Domains = append(block.Entries[i].Domains, d)
 								}
 							}
@@ -71,7 +71,7 @@ If a managed block already exists, entries outside the block are merged in.`,
 				}
 			}
 
-			fmt.Printf("Found %d entries outside the managed block, merging in.\n", len(outsideBlock.Entries))
+			fmt.Printf("found %d entries outside the managed block, merging in\n", len(outsideBlock.Entries))
 		} else {
 			// fresh init — parse everything
 			block = parser.ParseBlock(content)
@@ -102,24 +102,18 @@ If a managed block already exists, entries outside the block are merged in.`,
 		if err := backup.CreateRaw(saveName, data); err != nil {
 			exitWithError(fmt.Errorf("cannot create backup: %w", err))
 		}
-		path, _ := backup.Path(saveName)
-		fmt.Printf("backed up current hosts file to: %s\n", path)
+		path, err := backup.Path(saveName)
+		if err != nil {
+			exitWithError(err)
+		}
+		fmt.Printf("saved current hosts file to: %s\n", path)
 
 		// write back with managed block (no before/after, everything is in the block)
 		if err := writeBlock("", block, ""); err != nil {
 			exitWithError(err)
 		}
-		fmt.Printf("initialized hostfile management (%d entries)\n", len(block.Entries))
+		fmt.Printf("initialized (%d entries)\n", len(block.Entries))
 	},
-}
-
-func containsDomain(domains []string, domain string) bool {
-	for _, d := range domains {
-		if d == domain {
-			return true
-		}
-	}
-	return false
 }
 
 func init() {

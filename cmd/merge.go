@@ -30,7 +30,7 @@ var mergeCmd = &cobra.Command{
 		if err := writeBlock(before, block, after); err != nil {
 			exitWithError(err)
 		}
-		fmt.Printf("merged %s into managed block (%d entries)\n", filePath, len(block.Entries))
+		fmt.Printf("merged %q (%d entries)\n", filePath, len(block.Entries))
 	},
 }
 

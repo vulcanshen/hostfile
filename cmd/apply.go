@@ -30,7 +30,7 @@ var applyCmd = &cobra.Command{
 		if err := writeBlock(before, block, after); err != nil {
 			exitWithError(err)
 		}
-		fmt.Printf("applied %s to managed block (%d entries)\n", filePath, len(block.Entries))
+		fmt.Printf("applied %q (%d entries)\n", filePath, len(block.Entries))
 	},
 }
 
