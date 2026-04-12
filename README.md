@@ -93,8 +93,8 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | `hostfile show <name>` | Show the contents of a saved snapshot |
 | `hostfile enable <ip\|domain>` | Re-enable a disabled entry |
 | `hostfile disable <ip\|domain>` | Disable an entry without deleting it |
-| `hostfile apply <file>` | Replace the managed block with content from a file |
-| `hostfile merge <file>` | Merge content from a file into the managed block |
+| `hostfile apply <file \| ->` | Replace the managed block with content from a file or stdin (supports JSON) |
+| `hostfile merge <file \| ->` | Merge content from a file or stdin into the managed block (supports JSON) |
 | `hostfile clean` | Clear all entries from the managed block |
 | `hostfile save <name>` | Save the managed block as a snapshot to `~/.hostfile/<name>.hostfile` |
 | `hostfile list` | List all saved snapshots |
@@ -137,6 +137,10 @@ hostfile remove 192.168.1.100     # remove an IP and all its domains
 # Import from file
 hostfile apply hosts.txt           # replace managed block
 hostfile merge hosts.txt           # merge into managed block
+
+# Import from JSON
+hostfile apply config.json         # auto-detects JSON format
+hostfile show --json | hostfile apply -  # pipe between instances
 
 # Save / Load
 hostfile save my-snapshot

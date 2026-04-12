@@ -74,6 +74,20 @@ Type "hostfile show --json"
 Enter
 Sleep 3s
 
+# 2.5 JSON pipeline
+Type ""
+Enter
+Type "# Import from JSON"
+Enter
+Sleep 1.5s
+Type `echo '{"172.16.0.1":["cache.local"]}' | hostfile merge -`
+Enter
+Sleep 2s
+
+Type "hostfile show"
+Enter
+Sleep 3s
+
 # 3. Search
 Type ""
 Enter
