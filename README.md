@@ -45,9 +45,42 @@ scoop bucket add vulcanshen https://github.com/vulcanshen/scoop-bucket
 scoop install hostfile
 ```
 
+### Debian / Ubuntu (apt)
+
+```bash
+# Download the .deb package from the latest release
+curl -LO https://github.com/vulcanshen/hostfile/releases/latest/download/hostfile_<version>_linux_amd64.deb
+
+# Install
+sudo dpkg -i hostfile_<version>_linux_amd64.deb
+```
+
+Replace `<version>` with the version number (e.g. `1.2.0`). For ARM64 systems, use `linux_arm64.deb` instead.
+
+### RHEL / Fedora (rpm)
+
+```bash
+# Download the .rpm package from the latest release
+curl -LO https://github.com/vulcanshen/hostfile/releases/latest/download/hostfile_<version>_linux_amd64.rpm
+
+# Install
+sudo rpm -i hostfile_<version>_linux_amd64.rpm
+```
+
+Replace `<version>` with the version number (e.g. `1.2.0`). For ARM64 systems, use `linux_arm64.rpm` instead.
+
 ### Download Binary
 
-Download the latest release from the [Releases page](https://github.com/vulcanshen/hostfile/releases).
+Download the archive for your platform from the [Releases page](https://github.com/vulcanshen/hostfile/releases), then extract and move to your PATH:
+
+```bash
+# Example for Linux amd64
+curl -LO https://github.com/vulcanshen/hostfile/releases/latest/download/hostfile_<version>_linux_amd64.tar.gz
+tar xzf hostfile_<version>_linux_amd64.tar.gz
+sudo mv hostfile /usr/local/bin/
+```
+
+Available platforms: `linux`, `darwin`, `windows` × `amd64`, `arm64`.
 
 ## Commands
 
