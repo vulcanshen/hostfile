@@ -102,7 +102,7 @@ If a managed block already exists, entries outside the block are merged in.`,
 		if err := backup.CreateRaw(saveName, data); err != nil {
 			exitWithError(fmt.Errorf("cannot create backup: %w", err))
 		}
-		path, err := backup.Path(saveName)
+		path, err := backup.DisplayPath(saveName)
 		if err != nil {
 			exitWithError(err)
 		}

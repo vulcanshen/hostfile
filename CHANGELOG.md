@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.4.0] - 2026-04-12
+
+- Add colored and aligned output for `show` and `search` commands (auto-disabled when piped)
+- Add `--json` flag to `show` command — outputs active entries as JSON (key: IP, value: domain array)
+- Add `HOSTFILE__HOSTS_FILE` environment variable to override default hosts file path
+- Add `DisplayPath()` — file paths now display `~` instead of absolute home directory
+- Add duplicate domain detection in `add` command — shows "already exists" instead of false "added"
+- Add demo GIF (`vhs` tape script included)
+- Add uninstall scripts (`uninstall.sh`, `uninstall.ps1`)
+
 ## [v1.3.0] - 2026-04-12
 
 - Add man pages (auto-generated from cobra commands, included in release archives and deb/rpm)

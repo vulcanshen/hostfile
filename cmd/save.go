@@ -23,7 +23,7 @@ var saveCmd = &cobra.Command{
 		if err := backup.Create(name, block); err != nil {
 			exitWithError(err)
 		}
-		path, err := backup.Path(name)
+		path, err := backup.DisplayPath(name)
 		if err != nil {
 			exitWithError(err)
 		}

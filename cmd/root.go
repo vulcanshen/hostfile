@@ -11,6 +11,9 @@ import (
 var hostsFile string
 
 func defaultHostsPath() string {
+	if v := os.Getenv("HOSTFILE__HOSTS_FILE"); v != "" {
+		return v
+	}
 	if runtime.GOOS == "windows" {
 		return `C:\Windows\System32\drivers\etc\hosts`
 	}

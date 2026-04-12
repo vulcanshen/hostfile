@@ -7,6 +7,8 @@
 
 [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
+![demo](docs/demo.gif)
+
 A cross-platform CLI tool for managing your hosts file with ease.
 
 Designed to be simple enough that anyone can use it — just copy-paste a command and hit Enter.
@@ -86,7 +88,8 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | `hostfile add <ip> <domain1> [domain2...]` | Add domains to an IP, auto-merge if the IP already exists |
 | `hostfile remove <ip\|domain>` | Remove an IP (entire line) or a single domain |
 | `hostfile search <ip\|domain>` | Search the managed block — IP returns domains, domain returns IP |
-| `hostfile show` | Show all entries in the managed block |
+| `hostfile show` | Show all entries in the managed block (colored, aligned) |
+| `hostfile show --json` | Output active entries as JSON |
 | `hostfile show <name>` | Show the contents of a saved snapshot |
 | `hostfile enable <ip\|domain>` | Re-enable a disabled entry |
 | `hostfile disable <ip\|domain>` | Disable an entry without deleting it |
@@ -116,6 +119,7 @@ hostfile add 192.168.1.100 web.local api.local
 
 # Show managed entries
 hostfile show
+hostfile show --json            # JSON output (active only)
 
 # Search
 hostfile search web.local
@@ -170,6 +174,12 @@ hostfile completion fish > ~/.config/fish/completions/hostfile.fish
 # PowerShell
 hostfile completion powershell > hostfile.ps1
 ```
+
+## Advanced
+
+| Environment Variable | Description |
+|---------------------|-------------|
+| `HOSTFILE__HOSTS_FILE` | Override the default hosts file path. When set, all commands use this path instead of `/etc/hosts`. |
 
 ## License
 

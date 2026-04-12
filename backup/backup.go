@@ -160,6 +160,22 @@ func Path(name string) (string, error) {
 	return filepath.Join(base, name+backupExt), nil
 }
 
+// DisplayPath returns the file path with the home directory replaced by ~.
+func DisplayPath(name string) (string, error) {
+	path, err := Path(name)
+	if err != nil {
+		return "", err
+	}
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return path, nil
+	}
+	if strings.HasPrefix(path, home) {
+		return "~" + path[len(home):], nil
+	}
+	return path, nil
+}
+
 // Exists checks if a backup with the given name exists.
 func Exists(name string) (bool, error) {
 	base, err := backupBasePathFn()

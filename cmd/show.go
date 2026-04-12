@@ -1,12 +1,16 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/cobra"
 	"github.com/vulcanshen/hostfile/backup"
 	"github.com/vulcanshen/hostfile/manager"
+	"github.com/vulcanshen/hostfile/parser"
 )
+
+var showJSON bool
 
 var showCmd = &cobra.Command{
 	Use:   "show [name]",
@@ -39,9 +43,11 @@ func showCurrentBlock() {
 		return
 	}
 
-	for _, entry := range entries {
-		printEntry(entry)
+	if showJSON {
+		printJSON(entries)
+		return
 	}
+	printEntries(entries)
 }
 
 func showSavedSnapshot(name string) {
@@ -69,11 +75,29 @@ func showSavedSnapshot(name string) {
 		return
 	}
 
-	for _, entry := range restored.Entries {
-		printEntry(entry)
+	if showJSON {
+		printJSON(restored.Entries)
+		return
 	}
+	printEntries(restored.Entries)
+}
+
+func printJSON(entries []parser.HostEntry) {
+	result := make(map[string][]string)
+	for _, e := range entries {
+		if e.DisableType != parser.DisableNone {
+			continue
+		}
+		result[e.IP] = append(result[e.IP], e.Domains...)
+	}
+	data, err := json.MarshalIndent(result, "", "  ")
+	if err != nil {
+		exitWithError(err)
+	}
+	fmt.Println(string(data))
 }
 
 func init() {
+	showCmd.Flags().BoolVar(&showJSON, "json", false, "output active entries as JSON")
 	rootCmd.AddCommand(showCmd)
 }
