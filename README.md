@@ -3,6 +3,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/vulcanshen/hostfile)](https://github.com/vulcanshen/hostfile/releases)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/vulcanshen/hostfile)](https://go.dev/)
 [![CI](https://img.shields.io/github/actions/workflow/status/vulcanshen/hostfile/release.yml?label=CI)](https://github.com/vulcanshen/hostfile/actions)
+[![Go Report Card](https://goreportcard.com/badge/github.com/vulcanshen/hostfile)](https://goreportcard.com/report/github.com/vulcanshen/hostfile)
 [![License](https://img.shields.io/github/license/vulcanshen/hostfile)](LICENSE)
 
 [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
