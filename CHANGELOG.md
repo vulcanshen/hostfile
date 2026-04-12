@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.4.2] - 2026-04-12
+
+- Fix Homebrew formula to install man pages
+- Sync usage examples and Show flags across all translated READMEs
+- Clean up command tables — remove redundant `hostfile` prefix
+
 ## [v1.4.1] - 2026-04-12
 
 - Add stdin support for `apply` and `merge` — use `-` to read from pipe
