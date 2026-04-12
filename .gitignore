@@ -19,6 +19,9 @@ vendor/
 dist/
 RELEASE_NOTES.md
 
+# Drafts
+.draft/
+
 # Project private
 idea.md
 .claude/
