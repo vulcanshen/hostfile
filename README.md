@@ -179,6 +179,47 @@ hostfile load origin
 hostfile show --hosts-file /tmp/test.hosts
 ```
 
+## Real-world scenarios
+
+### Field engineers switching between network environments
+
+FAEs and consultants often work across multiple sites — company 
+office, customer on-site, home. Each environment has different 
+internal domains. On Windows, changing DNS adapter settings is 
+buried and limited to two entries. Re-doing it every time you 
+switch is error-prone and tedious.
+
+The hosts file is the most portable solution. With hostfile:
+
+# Leaving for customer site
+
+```bash
+hostfile save company     # snapshot your office setup
+hostfile clean            # clear everything
+```
+
+# Back at the office
+
+```bash
+hostfile load company     # restore in one command
+```
+
+### Keeping your machine clean
+
+Instead of hardcoding internal IPs into your network settings, 
+manage everything through hostfile. Enable what you need, 
+disable what you don't. Your hand-written entries are never 
+touched.
+
+### Sharing configs across a team
+
+```bash
+hostfile show --json | ssh teammate hostfile apply -
+```
+
+One pipeline to sync your hosts setup to another machine.
+
+
 ## Shell Completion
 
 ```bash

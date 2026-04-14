@@ -1,5 +1,15 @@
 # hostfile
 
+[![GitHub Release](https://img.shields.io/github/v/release/vulcanshen/hostfile)](https://github.com/vulcanshen/hostfile/releases)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/vulcanshen/hostfile)](https://go.dev/)
+[![CI](https://img.shields.io/github/actions/workflow/status/vulcanshen/hostfile/ci.yml?label=CI)](https://github.com/vulcanshen/hostfile/actions)
+[![Go Report Card](https://goreportcard.com/badge/github.com/vulcanshen/hostfile)](https://goreportcard.com/report/github.com/vulcanshen/hostfile)
+[![License](https://img.shields.io/github/license/vulcanshen/hostfile)](LICENSE)
+
+[English](README.md) | [繁體中文](README.zh-TW.md) | [한국어](README.ko.md)
+
+![demo](docs/demo.gif)
+
 クロスプラットフォーム hosts ファイル管理 CLI ツール。
 
 誰でも使えるほどシンプル — コマンドをコピーして貼り付け、Enter を押すだけ。
@@ -169,6 +179,44 @@ hostfile load origin
 hostfile show --hosts-file /tmp/test.hosts
 ```
 
+## 実際の活用シーン
+
+### フィールドエンジニアのネットワーク環境切り替え
+
+FAE やコンサルタントは複数の拠点を行き来します — 自社オフィス、顧客先、自宅。
+環境ごとに異なる内部ドメインがあります。Windows で DNS 設定を変更するのは
+深い階層に埋もれていて、しかも2つしか設定できません。切り替えるたびにやり直すのは
+ミスしやすく面倒です。
+
+hosts ファイルが最もポータブルな解決策です。hostfile なら：
+
+顧客先へ出発
+
+```bash
+hostfile save company     # オフィスの設定をスナップショット
+hostfile clean            # すべてクリア
+```
+
+オフィスに戻ったら
+
+```bash
+hostfile load company     # 一つのコマンドで復元
+```
+
+### マシンをクリーンに保つ
+
+内部 IP をネットワーク設定にハードコーディングする代わりに、
+hostfile で一元管理。必要なものを有効化、不要なものを無効化。
+手書きの設定は一切変更されません。
+
+### チームで設定を共有
+
+```bash
+hostfile show --json | ssh teammate hostfile apply -
+```
+
+ワンライナーで hosts 設定を別のマシンに同期。
+
 ## シェル補完
 
 ```bash
@@ -188,6 +236,12 @@ hostfile completion fish > ~/.config/fish/completions/hostfile.fish
 # PowerShell
 hostfile completion powershell > hostfile.ps1
 ```
+
+## 詳細設定
+
+| 環境変数 | 説明 |
+|----------|------|
+| `HOSTFILE__HOSTS_FILE` | デフォルトの hosts ファイルパスをオーバーライド。設定すると、すべてのコマンドが `/etc/hosts` の代わりにこのパスを使用します。 |
 
 ## ライセンス
 

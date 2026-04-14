@@ -1,5 +1,15 @@
 # hostfile
 
+[![GitHub Release](https://img.shields.io/github/v/release/vulcanshen/hostfile)](https://github.com/vulcanshen/hostfile/releases)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/vulcanshen/hostfile)](https://go.dev/)
+[![CI](https://img.shields.io/github/actions/workflow/status/vulcanshen/hostfile/ci.yml?label=CI)](https://github.com/vulcanshen/hostfile/actions)
+[![Go Report Card](https://goreportcard.com/badge/github.com/vulcanshen/hostfile)](https://goreportcard.com/report/github.com/vulcanshen/hostfile)
+[![License](https://img.shields.io/github/license/vulcanshen/hostfile)](LICENSE)
+
+[English](README.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+
+![demo](docs/demo.gif)
+
 跨平台 hosts 檔管理 CLI 工具。
 
 簡單到任何人都能用 — 複製指令、貼上、按 Enter，搞定。
@@ -169,6 +179,43 @@ hostfile load origin
 hostfile show --hosts-file /tmp/test.hosts
 ```
 
+## 實際應用場景
+
+### 外勤工程師切換網路環境
+
+FAE 和顧問經常在不同地點之間往返 — 公司辦公室、客戶現場、在家。
+每個環境都有不同的內部 domain。在 Windows 上改 DNS 設定藏得很深，
+而且只能設兩組。每次切換都要重來一遍，既容易出錯又麻煩。
+
+hosts 檔是最通用的解決方案。用 hostfile：
+
+出發去客戶現場
+
+```bash
+hostfile save company     # 快照你的辦公室設定
+hostfile clean            # 清空所有設定
+```
+
+回到辦公室
+
+```bash
+hostfile load company     # 一個指令還原
+```
+
+### 保持機器乾淨
+
+不要把內部 IP 硬寫進網路設定，
+用 hostfile 統一管理。需要的啟用，不需要的停用。
+你手寫的設定永遠不會被動到。
+
+### 團隊共享設定
+
+```bash
+hostfile show --json | ssh teammate hostfile apply -
+```
+
+一行指令同步 hosts 設定到另一台機器。
+
 ## Shell 自動補全
 
 ```bash
@@ -188,6 +235,12 @@ hostfile completion fish > ~/.config/fish/completions/hostfile.fish
 # PowerShell
 hostfile completion powershell > hostfile.ps1
 ```
+
+## 進階設定
+
+| 環境變數 | 說明 |
+|---------|------|
+| `HOSTFILE__HOSTS_FILE` | 覆蓋預設的 hosts 檔路徑。設定後，所有指令都會使用此路徑取代 `/etc/hosts`。 |
 
 ## 授權
 
