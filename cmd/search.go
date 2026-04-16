@@ -13,7 +13,13 @@ import (
 var searchCmd = &cobra.Command{
 	Use:   "search <ip|domain>",
 	Short: "Search the managed block for an IP or domain",
-	Args:  cobra.ExactArgs(1),
+	Args: cobra.ExactArgs(1),
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		if len(args) != 0 {
+			return nil, cobra.ShellCompDirectiveNoFileComp
+		}
+		return completeAllEntries()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		query := args[0]
 
@@ -28,15 +34,18 @@ var searchCmd = &cobra.Command{
 			return
 		}
 
-		printEntries(results)
+		printEntriesHighlight(results, query)
 	},
 }
 
 const (
-	colorReset  = "\033[0m"
-	colorGreen  = "\033[32m"
-	colorGray   = "\033[90m"
-	colorYellow = "\033[33m"
+	colorReset   = "\033[0m"
+	colorGreen   = "\033[32m"
+	colorGray    = "\033[90m"
+	colorYellow  = "\033[33m"
+	colorBold    = "\033[1m"
+	colorCyan    = "\033[36m"
+	colorReverse = "\033[7m"
 )
 
 func isTTY() bool {
@@ -47,59 +56,125 @@ func isTTY() bool {
 	return fi.Mode()&os.ModeCharDevice != 0
 }
 
+func highlightSubstring(s, query string) string {
+	lower := strings.ToLower(s)
+	lowerQuery := strings.ToLower(query)
+	idx := strings.Index(lower, lowerQuery)
+	if idx < 0 {
+		return s
+	}
+	return s[:idx] + colorYellow + s[idx:idx+len(query)] + colorReset + s[idx+len(query):]
+}
+
+func highlightSubstringReverse(s, query string) string {
+	lower := strings.ToLower(s)
+	lowerQuery := strings.ToLower(query)
+	idx := strings.Index(lower, lowerQuery)
+	if idx < 0 {
+		return s
+	}
+	return s[:idx] + colorReverse + s[idx:idx+len(query)] + colorReset + colorGray + s[idx+len(query):]
+}
+
+func maxIPWidth(entries []parser.HostEntry) int {
+	w := len("IP")
+	for _, e := range entries {
+		if len(e.IP) > w {
+			w = len(e.IP)
+		}
+	}
+	return w
+}
+
+func printHeader(ipWidth int, tty bool) {
+	ip := fmt.Sprintf("%-*s", ipWidth, "IP")
+	if tty {
+		fmt.Printf("%s%s%s  %s%s%s\n", colorBold+colorCyan, ip, colorReset, colorBold+colorCyan, "DOMAIN", colorReset)
+		ipUnderline := fmt.Sprintf("%-*s", ipWidth, strings.Repeat("─", len("IP")))
+		fmt.Printf("%s%s%s  %s%s%s\n", colorGray, ipUnderline, colorReset, colorGray, strings.Repeat("─", len("DOMAIN")), colorReset)
+	} else {
+		fmt.Printf("%s  %s\n", ip, "DOMAIN")
+	}
+}
+
 func printEntries(entries []parser.HostEntry) {
 	if len(entries) == 0 {
 		return
 	}
-
-	// calculate max IP width for alignment
-	maxIPLen := 0
+	tty := isTTY()
+	w := maxIPWidth(entries)
+	printHeader(w, tty)
 	for _, e := range entries {
-		if len(e.IP) > maxIPLen {
-			maxIPLen = len(e.IP)
-		}
-	}
-
-	for _, e := range entries {
-		printEntryAligned(e, maxIPLen)
+		printEntryRows(e, w, "", tty)
 	}
 }
 
-func printEntryAligned(entry parser.HostEntry, ipWidth int) {
+func printEntriesHighlight(entries []parser.HostEntry, query string) {
+	if len(entries) == 0 {
+		return
+	}
 	tty := isTTY()
-	domains := strings.Join(entry.Domains, " ")
+	w := maxIPWidth(entries)
+	printHeader(w, tty)
+	for _, e := range entries {
+		printEntryRows(e, w, query, tty)
+	}
+}
+
+func printEntryRows(entry parser.HostEntry, ipWidth int, query string, tty bool) {
+	blank := fmt.Sprintf("%-*s", ipWidth, "")
 
 	switch entry.DisableType {
 	case parser.DisableIP:
-		ip := fmt.Sprintf("%-*s", ipWidth, entry.IP)
-		if tty {
-			fmt.Printf("%s%s  %s  [disabled]%s\n", colorGray, ip, domains, colorReset)
-		} else {
-			fmt.Printf("%s  %s  [disabled]\n", ip, domains)
+		for i, d := range entry.Domains {
+			ip := blank
+			if i == 0 {
+				ip = fmt.Sprintf("%-*s", ipWidth, entry.IP)
+			}
+			if tty {
+				if query != "" {
+					ip = highlightSubstringReverse(ip, query)
+					d = highlightSubstringReverse(d, query)
+				}
+				fmt.Printf("%s%s  %s  [disabled]%s\n", colorGray, ip, d, colorReset)
+			} else {
+				fmt.Printf("%s  %s  [disabled]\n", ip, d)
+			}
 		}
 	case parser.DisableDomain:
 		ip := fmt.Sprintf("%-*s", ipWidth, entry.IP)
-		domain := ""
+		d := ""
 		if len(entry.Domains) > 0 {
-			domain = entry.Domains[0]
+			d = entry.Domains[0]
 		}
 		if tty {
-			fmt.Printf("%s%s  %s  [disabled]%s\n", colorGray, ip, domain, colorReset)
+			if query != "" {
+				ip = highlightSubstringReverse(ip, query)
+				d = highlightSubstringReverse(d, query)
+			}
+			fmt.Printf("%s%s  %s  [disabled]%s\n", colorGray, ip, d, colorReset)
 		} else {
-			fmt.Printf("%s  %s  [disabled]\n", ip, domain)
+			fmt.Printf("%s  %s  [disabled]\n", ip, d)
 		}
 	default:
-		ip := fmt.Sprintf("%-*s", ipWidth, entry.IP)
-		if tty {
-			fmt.Printf("%s  %s%s%s\n", ip, colorGreen, domains, colorReset)
-		} else {
-			fmt.Printf("%s  %s\n", ip, domains)
+		for i, d := range entry.Domains {
+			ip := blank
+			if i == 0 {
+				ip = fmt.Sprintf("%-*s", ipWidth, entry.IP)
+			}
+			if tty {
+				if query != "" {
+					ip = highlightSubstring(ip, query)
+					d = highlightSubstring(d, query)
+					fmt.Printf("%s  %s\n", ip, d)
+				} else {
+					fmt.Printf("%s  %s%s%s\n", ip, colorGreen, d, colorReset)
+				}
+			} else {
+				fmt.Printf("%s  %s\n", ip, d)
+			}
 		}
 	}
-}
-
-func printEntry(entry parser.HostEntry) {
-	printEntryAligned(entry, len(entry.IP))
 }
 
 func init() {

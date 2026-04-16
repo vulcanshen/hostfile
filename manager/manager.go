@@ -200,28 +200,35 @@ func removeDomain(block *parser.ManagedBlock, domain string) RemoveResult {
 }
 
 // Search searches the managed block for entries matching the query (IP or domain).
+// Matching is case-insensitive substring match.
+// When matching by domain, only matched domains are included in the result.
+// When matching by IP, all domains under that IP are included.
 func Search(block *parser.ManagedBlock, query string) []parser.HostEntry {
 	var results []parser.HostEntry
-	if isIP(query) {
-		for _, entry := range block.Entries {
-			if entry.IP == query {
+	lowerQuery := strings.ToLower(query)
+	for _, entry := range block.Entries {
+		if strings.Contains(strings.ToLower(entry.IP), lowerQuery) {
+			results = append(results, entry)
+			continue
+		}
+		if entry.DisableType == parser.DisableDomain {
+			if len(entry.Domains) > 0 && strings.Contains(strings.ToLower(entry.Domains[0]), lowerQuery) {
 				results = append(results, entry)
 			}
+			continue
 		}
-	} else {
-		for _, entry := range block.Entries {
-			if entry.DisableType == parser.DisableDomain {
-				if len(entry.Domains) > 0 && entry.Domains[0] == query {
-					results = append(results, entry)
-				}
-				continue
+		var matched []string
+		for _, d := range entry.Domains {
+			if strings.Contains(strings.ToLower(d), lowerQuery) {
+				matched = append(matched, d)
 			}
-			for _, d := range entry.Domains {
-				if d == query {
-					results = append(results, entry)
-					break
-				}
-			}
+		}
+		if len(matched) > 0 {
+			results = append(results, parser.HostEntry{
+				IP:          entry.IP,
+				Domains:     matched,
+				DisableType: entry.DisableType,
+			})
 		}
 	}
 	return results

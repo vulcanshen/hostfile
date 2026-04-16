@@ -101,7 +101,7 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | `init` | 既存の hosts ファイルを引き継ぐ — 元ファイルを "origin" としてバックアップし、全エントリを managed block に変換 |
 | `add <ip> <domain1> [domain2...]` | 指定 IP にドメインを追加、同一 IP は自動マージ |
 | `remove <ip\|domain>` | IP（行全体）または単一ドメインを削除 |
-| `search <ip\|domain>` | 検索 — IP を入力するとドメインを返し、ドメインを入力すると IP を返す |
+| `search <ip\|domain>` | あいまい検索 — 大文字小文字を区別しない部分文字列マッチング、検索結果をハイライト表示 |
 | `show` | managed block の全エントリを表示（カラー＆整列） |
 | `show --json` | アクティブなエントリを JSON で出力 |
 | `show <name>` | 保存されたスナップショットの内容を表示 |

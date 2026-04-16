@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/spf13/cobra"
 	"github.com/vulcanshen/hostfile/manager"
 	"github.com/vulcanshen/hostfile/parser"
 	"github.com/vulcanshen/hostfile/privilege"
@@ -107,4 +108,86 @@ func parseHostsContent(data []byte) (string, error) {
 func exitWithError(err error) {
 	fmt.Fprintln(os.Stderr, "error:", err)
 	os.Exit(1)
+}
+
+// completeAllEntries returns all IPs and domains for shell completion.
+func completeAllEntries() ([]string, cobra.ShellCompDirective) {
+	_, block, _, err := readBlock()
+	if err != nil {
+		return nil, cobra.ShellCompDirectiveNoFileComp
+	}
+	seen := make(map[string]bool)
+	var results []string
+	for _, entry := range block.Entries {
+		if !seen[entry.IP] {
+			seen[entry.IP] = true
+			results = append(results, entry.IP)
+		}
+		for _, d := range entry.Domains {
+			if !seen[d] {
+				seen[d] = true
+				results = append(results, d)
+			}
+		}
+	}
+	return results, cobra.ShellCompDirectiveNoFileComp
+}
+
+// completeActiveEntries returns active (non-disabled) IPs and domains for shell completion.
+func completeActiveEntries() ([]string, cobra.ShellCompDirective) {
+	_, block, _, err := readBlock()
+	if err != nil {
+		return nil, cobra.ShellCompDirectiveNoFileComp
+	}
+	seen := make(map[string]bool)
+	var results []string
+	for _, entry := range block.Entries {
+		switch entry.DisableType {
+		case parser.DisableNone:
+			if !seen[entry.IP] {
+				seen[entry.IP] = true
+				results = append(results, entry.IP)
+			}
+			for _, d := range entry.Domains {
+				if !seen[d] {
+					seen[d] = true
+					results = append(results, d)
+				}
+			}
+		case parser.DisableDomain:
+			// IP itself is still active, just this domain is disabled
+			if !seen[entry.IP] {
+				seen[entry.IP] = true
+				results = append(results, entry.IP)
+			}
+		}
+	}
+	return results, cobra.ShellCompDirectiveNoFileComp
+}
+
+// completeDisabledEntries returns disabled IPs and domains for shell completion.
+func completeDisabledEntries() ([]string, cobra.ShellCompDirective) {
+	_, block, _, err := readBlock()
+	if err != nil {
+		return nil, cobra.ShellCompDirectiveNoFileComp
+	}
+	seen := make(map[string]bool)
+	var results []string
+	for _, entry := range block.Entries {
+		switch entry.DisableType {
+		case parser.DisableIP:
+			if !seen[entry.IP] {
+				seen[entry.IP] = true
+				results = append(results, entry.IP)
+			}
+		case parser.DisableDomain:
+			for _, d := range entry.Domains {
+				if !seen[d] {
+					seen[d] = true
+					results = append(results, d)
+				}
+			}
+		}
+	}
+	return results, cobra.ShellCompDirectiveNoFileComp
 }

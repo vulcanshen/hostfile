@@ -101,7 +101,7 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | `init` | 기존 hosts 파일 인수 — 원본을 "origin"으로 백업하고 모든 항목을 managed block으로 변환 |
 | `add <ip> <domain1> [domain2...]` | 지정 IP에 도메인 추가, 동일 IP 자동 병합 |
 | `remove <ip\|domain>` | IP(전체 행) 또는 단일 도메인 제거 |
-| `search <ip\|domain>` | 검색 — IP 입력 시 도메인 반환, 도메인 입력 시 IP 반환 |
+| `search <ip\|domain>` | 퍼지 검색 — 대소문자 구분 없는 부분 문자열 매칭, 검색 결과 하이라이트 표시 |
 | `show` | managed block의 모든 항목 표시 (컬러 및 정렬) |
 | `show --json` | 활성 항목을 JSON으로 출력 |
 | `show <name>` | 저장된 스냅샷의 내용 표시 |

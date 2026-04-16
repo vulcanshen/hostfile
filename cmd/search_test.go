@@ -32,14 +32,26 @@ func TestPrintEntries_Alignment(t *testing.T) {
 	}
 
 	output := captureStdout(func() { printEntries(entries) })
-	lines := strings.Split(strings.TrimSpace(output), "\n")
-	if len(lines) != 2 {
-		t.Fatalf("expected 2 lines, got %d", len(lines))
+	// filter out empty lines (separators)
+	var lines []string
+	for _, l := range strings.Split(strings.TrimSpace(output), "\n") {
+		if strings.TrimSpace(l) != "" {
+			lines = append(lines, l)
+		}
+	}
+	// header + 2 domain lines
+	if len(lines) != 3 {
+		t.Fatalf("expected 3 non-empty lines (header + 2 entries), got %d: %q", len(lines), output)
 	}
 
-	// both lines should have the same IP column width
-	idx1 := strings.Index(lines[0], "web.local")
-	idx2 := strings.Index(lines[1], "db.local")
+	// header should contain IP and DOMAIN
+	if !strings.Contains(lines[0], "IP") || !strings.Contains(lines[0], "DOMAIN") {
+		t.Errorf("expected header with IP and DOMAIN, got: %s", lines[0])
+	}
+
+	// data lines should have the same domain column offset
+	idx1 := strings.Index(lines[1], "web.local")
+	idx2 := strings.Index(lines[2], "db.local")
 	if idx1 != idx2 {
 		t.Errorf("domains not aligned: web.local at %d, db.local at %d", idx1, idx2)
 	}
@@ -74,11 +86,28 @@ func TestPrintEntries_Empty(t *testing.T) {
 	}
 }
 
-func TestPrintEntry_SingleEntry(t *testing.T) {
-	entry := parser.HostEntry{IP: "10.0.0.1", Domains: []string{"web.local"}, DisableType: parser.DisableNone}
-	output := captureStdout(func() { printEntry(entry) })
-	if !strings.Contains(output, "10.0.0.1") || !strings.Contains(output, "web.local") {
-		t.Errorf("unexpected output: %s", output)
+func TestPrintEntries_MultiDomainPerLine(t *testing.T) {
+	entries := []parser.HostEntry{
+		{IP: "192.168.1.100", Domains: []string{"web.local", "api.local"}, DisableType: parser.DisableNone},
+	}
+
+	output := captureStdout(func() { printEntries(entries) })
+	lines := strings.Split(strings.TrimSpace(output), "\n")
+	// header + 2 domain lines (one per domain)
+	if len(lines) != 3 {
+		t.Fatalf("expected 3 lines (header + 2 domains), got %d: %q", len(lines), output)
+	}
+
+	// first data line has IP, second has blank IP
+	if !strings.Contains(lines[1], "192.168.1.100") {
+		t.Errorf("first domain line should contain IP, got: %s", lines[1])
+	}
+	if !strings.Contains(lines[2], "api.local") {
+		t.Errorf("second domain line should contain api.local, got: %s", lines[2])
+	}
+	// second line should NOT contain the IP
+	if strings.Contains(lines[2], "192.168.1.100") {
+		t.Errorf("second domain line should not repeat IP, got: %s", lines[2])
 	}
 }
 

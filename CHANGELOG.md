@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.5.0] - 2026-04-16
+
+### New Features
+
+- Add fuzzy search — case-insensitive substring matching for `search` command
+- Add search result highlighting — matched text shown in yellow, disabled entries use reverse video
+- Add table-style output for `show` and `search` — header row with `IP` / `DOMAIN` columns, one domain per line
+- Add shell autocompletion for `search`, `remove`, `disable`, and `enable` commands
+  - `disable`: suggests active IPs and domains
+  - `enable`: suggests disabled IPs and domains (IP-level vs domain-level aware)
+  - `search` / `remove`: suggests all IPs and domains
+
+### Improvements
+
+- Search results now only include matched domains instead of all domains under the same IP
+- Pipe-safe: colors auto-disabled when output is not a TTY
+
 ## [v1.4.2] - 2026-04-12
 
 - Fix Homebrew formula to install man pages

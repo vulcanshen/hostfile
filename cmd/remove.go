@@ -10,7 +10,13 @@ import (
 var removeCmd = &cobra.Command{
 	Use:   "remove <ip|domain>",
 	Short: "Remove an IP or domain from the managed block",
-	Args:  cobra.ExactArgs(1),
+	Args: cobra.ExactArgs(1),
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		if len(args) != 0 {
+			return nil, cobra.ShellCompDirectiveNoFileComp
+		}
+		return completeAllEntries()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		target := args[0]
 

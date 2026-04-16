@@ -101,7 +101,7 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | `init` | Take over the current hosts file — backs up as "origin", reformats all entries into managed block |
 | `add <ip> <domain1> [domain2...]` | Add domains to an IP, auto-merge if the IP already exists |
 | `remove <ip\|domain>` | Remove an IP (entire line) or a single domain |
-| `search <ip\|domain>` | Search the managed block — IP returns domains, domain returns IP |
+| `search <ip\|domain>` | Fuzzy search the managed block — case-insensitive substring matching with highlighted results |
 | `show` | Show all entries in the managed block (colored, aligned) |
 | `show --json` | Output active entries as JSON |
 | `show <name>` | Show the contents of a saved snapshot |

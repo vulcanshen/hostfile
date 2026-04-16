@@ -101,7 +101,7 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | `init` | 接管現有 hosts 檔 — 備份原始檔為 "origin"，將所有設定轉為 managed block |
 | `add <ip> <domain1> [domain2...]` | 新增 domain 到指定 IP，同 IP 自動合併 |
 | `remove <ip\|domain>` | 移除一個 IP（整行）或單一 domain |
-| `search <ip\|domain>` | 搜尋 — 輸入 IP 回傳 domain，輸入 domain 回傳 IP |
+| `search <ip\|domain>` | 模糊搜尋 — 不區分大小寫的子字串匹配，搜尋結果高亮顯示 |
 | `show` | 顯示目前 managed block 的所有設定（著色對齊） |
 | `show --json` | 以 JSON 格式輸出 active 設定 |
 | `show <name>` | 顯示某個快照的內容 |
