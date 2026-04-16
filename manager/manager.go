@@ -21,7 +21,7 @@ func ReadHostsFile(path string) (before string, block *parser.ManagedBlock, afte
 		return "", nil, "", err
 	}
 
-	content := string(data)
+	content := strings.ReplaceAll(string(data), "\r\n", "\n")
 	startIdx := strings.Index(content, parser.BlockStart)
 	endIdx := strings.Index(content, parser.BlockEnd)
 

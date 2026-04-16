@@ -71,21 +71,41 @@ func isTTY() bool {
 func highlightSubstring(s, query string) string {
 	lower := strings.ToLower(s)
 	lowerQuery := strings.ToLower(query)
-	idx := strings.Index(lower, lowerQuery)
-	if idx < 0 {
-		return s
+	var result strings.Builder
+	i := 0
+	for i < len(s) {
+		idx := strings.Index(lower[i:], lowerQuery)
+		if idx < 0 {
+			result.WriteString(s[i:])
+			break
+		}
+		result.WriteString(s[i : i+idx])
+		result.WriteString(colorYellow)
+		result.WriteString(s[i+idx : i+idx+len(query)])
+		result.WriteString(colorReset)
+		i += idx + len(query)
 	}
-	return s[:idx] + colorYellow + s[idx:idx+len(query)] + colorReset + s[idx+len(query):]
+	return result.String()
 }
 
 func highlightSubstringReverse(s, query string) string {
 	lower := strings.ToLower(s)
 	lowerQuery := strings.ToLower(query)
-	idx := strings.Index(lower, lowerQuery)
-	if idx < 0 {
-		return s
+	var result strings.Builder
+	i := 0
+	for i < len(s) {
+		idx := strings.Index(lower[i:], lowerQuery)
+		if idx < 0 {
+			result.WriteString(s[i:])
+			break
+		}
+		result.WriteString(s[i : i+idx])
+		result.WriteString(colorReverse)
+		result.WriteString(s[i+idx : i+idx+len(query)])
+		result.WriteString(colorReset + colorGray)
+		i += idx + len(query)
 	}
-	return s[:idx] + colorReverse + s[idx:idx+len(query)] + colorReset + colorGray + s[idx+len(query):]
+	return result.String()
 }
 
 func maxIPWidth(entries []parser.HostEntry) int {

@@ -52,7 +52,7 @@ func writeWithEscalationUnix(path string, content []byte) error {
 		return cmd.Run()
 	}
 
-	return fmt.Errorf("permission denied: please run with sudo or as root")
+	return fmt.Errorf("permission denied: sudo and doas not found — please install sudo or run as root")
 }
 
 func writeWithEscalationWindows(path string, content []byte) error {
@@ -77,5 +77,5 @@ func writeWithEscalationWindows(path string, content []byte) error {
 		return cmd.Run()
 	}
 
-	return fmt.Errorf("permission denied: please run this terminal as Administrator")
+	return fmt.Errorf("permission denied: sudo and gsudo not found — please install gsudo or run as Administrator")
 }

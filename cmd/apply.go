@@ -7,6 +7,8 @@ import (
 	"github.com/vulcanshen/hostfile/manager"
 )
 
+var applyDryRun bool
+
 var applyCmd = &cobra.Command{
 	Use:   "apply <file | ->",
 	Short: "Replace the managed block with content from a file or stdin",
@@ -31,6 +33,12 @@ var applyCmd = &cobra.Command{
 
 		manager.Apply(block, content)
 
+		if applyDryRun {
+			fmt.Printf("(dry-run) would apply %d entries:\n", len(block.Entries))
+			printEntries(block.Entries)
+			return
+		}
+
 		if err := writeBlock(before, block, after); err != nil {
 			exitWithError(err)
 		}
@@ -39,5 +47,6 @@ var applyCmd = &cobra.Command{
 }
 
 func init() {
+	applyCmd.Flags().BoolVar(&applyDryRun, "dry-run", false, "preview changes without writing")
 	rootCmd.AddCommand(applyCmd)
 }

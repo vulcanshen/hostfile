@@ -88,7 +88,7 @@ If a managed block already exists, entries outside the block are merged in.`,
 			exitWithError(err)
 		}
 		if exists {
-			saveName = fmt.Sprintf("origin-%s", time.Now().Format("20060102_150405"))
+			saveName = fmt.Sprintf("origin-%s", time.Now().Format("20060102_150405.000"))
 		}
 
 		// confirm with user

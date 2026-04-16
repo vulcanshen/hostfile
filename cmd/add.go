@@ -46,7 +46,7 @@ var addCmd = &cobra.Command{
 
 		if len(newDomains) == 0 {
 			for _, d := range existingDomains {
-				fmt.Printf("%s -> %s already exists\n", d, ip)
+				fmt.Printf("skipped %s -> %s (already exists)\n", d, ip)
 			}
 			return
 		}
@@ -77,7 +77,7 @@ var addCmd = &cobra.Command{
 			fmt.Printf("added %s -> %s\n", d, ip)
 		}
 		for _, d := range existingDomains {
-			fmt.Printf("%s -> %s already exists\n", d, ip)
+			fmt.Printf("skipped %s -> %s (already exists)\n", d, ip)
 		}
 	},
 }

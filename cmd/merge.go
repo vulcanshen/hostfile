@@ -7,6 +7,8 @@ import (
 	"github.com/vulcanshen/hostfile/manager"
 )
 
+var mergeDryRun bool
+
 var mergeCmd = &cobra.Command{
 	Use:   "merge <file | ->",
 	Short: "Merge content from a file or stdin into the managed block",
@@ -31,6 +33,12 @@ var mergeCmd = &cobra.Command{
 
 		manager.Merge(block, content)
 
+		if mergeDryRun {
+			fmt.Printf("(dry-run) would result in %d entries:\n", len(block.Entries))
+			printEntries(block.Entries)
+			return
+		}
+
 		if err := writeBlock(before, block, after); err != nil {
 			exitWithError(err)
 		}
@@ -39,5 +47,6 @@ var mergeCmd = &cobra.Command{
 }
 
 func init() {
+	mergeCmd.Flags().BoolVar(&mergeDryRun, "dry-run", false, "preview changes without writing")
 	rootCmd.AddCommand(mergeCmd)
 }

@@ -33,6 +33,19 @@ func ValidIP(s string) bool {
 	return err == nil
 }
 
+// ValidDomain checks if a string is a valid domain name for hosts file use.
+func ValidDomain(s string) bool {
+	if len(s) == 0 || len(s) > 253 {
+		return false
+	}
+	for _, label := range strings.Split(s, ".") {
+		if len(label) == 0 || len(label) > 63 {
+			return false
+		}
+	}
+	return true
+}
+
 // HostEntry represents a single entry in the managed block.
 // For normal and disable-ip entries: IP + Domains.
 // For disable-domain entries: IP + Domains (single domain that was disabled).
@@ -107,6 +120,11 @@ func ParseLine(line string) (*HostEntry, error) {
 	ip := fields[0]
 	if !ValidIP(ip) {
 		return nil, fmt.Errorf("invalid IP: %s", ip)
+	}
+	for _, d := range fields[1:] {
+		if !ValidDomain(d) {
+			return nil, fmt.Errorf("invalid domain %q (must be 1-253 chars, labels 1-63 chars)", d)
+		}
 	}
 	return &HostEntry{
 		IP:          ip,

@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.5.3] - 2026-04-16
+
+### Improvements
+
+- Add `--dry-run` flag to `apply` and `merge` — preview changes without writing
+- Improve `add` feedback: duplicates now show `skipped ... (already exists)`
+- Search highlighting now marks all occurrences, not just the first
+- Privilege escalation errors now specify which tool is missing (sudo/doas/gsudo)
+- Non-interactive confirm (piped input) now prints a warning instead of failing silently
+- Init timestamp precision increased to milliseconds to avoid collisions
+
+### Bug Fixes
+
+- Fix Windows CRLF handling — normalize `\r\n` to `\n` when reading hosts file
+- Add domain length validation (1–253 chars total, 1–63 per label)
+
 ## [v1.5.2] - 2026-04-16
 
 - Add shell autocompletion for `add` command (suggests existing IPs)
