@@ -12,7 +12,8 @@ var Version = "dev"
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print the version number",
-	Args:  cobra.NoArgs,
+	Args:              cobra.NoArgs,
+	ValidArgsFunction: cobra.NoFileCompletions,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("hostfile " + Version)
 	},

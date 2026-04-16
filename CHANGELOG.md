@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.5.2] - 2026-04-16
+
+- Add shell autocompletion for `add` command (suggests existing IPs)
+- Add `NoFileCompletions` for `init`, `clean`, `version` commands
+- All commands now have proper autocompletion configured
+
 ## [v1.5.1] - 2026-04-16
 
 - Add `--all` flag to `show` and `search` — include entries outside the managed block

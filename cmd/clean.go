@@ -10,7 +10,8 @@ import (
 var cleanCmd = &cobra.Command{
 	Use:   "clean",
 	Short: "Clear all entries from the managed block",
-	Args:  cobra.NoArgs,
+	Args:              cobra.NoArgs,
+	ValidArgsFunction: cobra.NoFileCompletions,
 	Run: func(cmd *cobra.Command, args []string) {
 		before, block, after, err := readBlock()
 		if err != nil {

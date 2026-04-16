@@ -19,6 +19,7 @@ var initCmd = &cobra.Command{
 into the managed block format and overwrite the hosts file.
 
 If a managed block already exists, entries outside the block are merged in.`,
+	ValidArgsFunction: cobra.NoFileCompletions,
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		// read entire hosts file

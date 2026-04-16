@@ -128,6 +128,23 @@ func parseOutsideEntries(text string) []parser.HostEntry {
 	return entries
 }
 
+// completeExistingIPs returns all IPs in the managed block for shell completion.
+func completeExistingIPs() ([]string, cobra.ShellCompDirective) {
+	_, block, _, err := readBlock()
+	if err != nil {
+		return nil, cobra.ShellCompDirectiveNoFileComp
+	}
+	seen := make(map[string]bool)
+	var results []string
+	for _, entry := range block.Entries {
+		if !seen[entry.IP] {
+			seen[entry.IP] = true
+			results = append(results, entry.IP)
+		}
+	}
+	return results, cobra.ShellCompDirectiveNoFileComp
+}
+
 // completeAllEntries returns all IPs and domains for shell completion.
 func completeAllEntries() ([]string, cobra.ShellCompDirective) {
 	_, block, _, err := readBlock()

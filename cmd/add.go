@@ -11,7 +11,13 @@ import (
 var addCmd = &cobra.Command{
 	Use:   "add <ip> <domain1> [domain2...]",
 	Short: "Add domains to an IP address",
-	Args:  cobra.MinimumNArgs(2),
+	Args: cobra.MinimumNArgs(2),
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		if len(args) == 0 {
+			return completeExistingIPs()
+		}
+		return nil, cobra.ShellCompDirectiveNoFileComp
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		ip := args[0]
 		domains := args[1:]
