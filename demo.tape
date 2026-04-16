@@ -98,7 +98,7 @@ Type "hostfile search 192.168.1.100"
 Enter
 Sleep 3s
 
-Type "hostfile search web.local"
+Type "hostfile search web"
 Enter
 Sleep 3s
 
