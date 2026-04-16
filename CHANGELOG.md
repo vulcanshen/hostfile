@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.5.1] - 2026-04-16
+
+- Add `--all` flag to `show` and `search` — include entries outside the managed block
+- `search` now returns exit code 1 when no entries are found (scriptable)
+
 ## [v1.5.0] - 2026-04-16
 
 ### New Features

@@ -127,6 +127,13 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | フラグ | 説明 |
 |--------|------|
 | `--json` | アクティブなエントリを JSON で出力（`{"ip": ["domain1", "domain2"]}`） |
+| `--all` | managed block 外のエントリも含める |
+
+### Search フラグ
+
+| フラグ | 説明 |
+|--------|------|
+| `--all` | managed block 外のエントリも含める |
 
 ## 使用例
 

@@ -262,11 +262,12 @@ func TestCmd_ShowEmpty(t *testing.T) {
 func TestCmd_SearchNotFound(t *testing.T) {
 	path := setupHosts(t, "")
 
-	out, _ := captureOutput(t, func() {
-		runCmd(t, path, "search", "nonexistent.local")
-	})
-	if !strings.Contains(out, "no entries found") {
-		t.Errorf("expected not-found message, got: %s", out)
+	_, err := runCmd(t, path, "search", "nonexistent.local")
+	if err == nil {
+		t.Error("expected error for search with no results")
+	}
+	if !strings.Contains(err.Error(), "no entries found") {
+		t.Errorf("expected not-found in error, got: %s", err)
 	}
 }
 

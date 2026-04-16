@@ -127,6 +127,13 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | 플래그 | 설명 |
 |--------|------|
 | `--json` | 활성 항목을 JSON으로 출력 (`{"ip": ["domain1", "domain2"]}`) |
+| `--all` | managed block 외부 항목도 포함 |
+
+### Search 플래그
+
+| 플래그 | 설명 |
+|--------|------|
+| `--all` | managed block 외부 항목도 포함 |
 
 ## 사용 예시
 

@@ -110,6 +110,24 @@ func exitWithError(err error) {
 	os.Exit(1)
 }
 
+// parseOutsideEntries parses hosts entries from text outside the managed block.
+// Skips comments and invalid lines silently.
+func parseOutsideEntries(text string) []parser.HostEntry {
+	var entries []parser.HostEntry
+	for _, line := range strings.Split(text, "\n") {
+		trimmed := strings.TrimSpace(line)
+		if trimmed == "" || strings.HasPrefix(trimmed, "#") {
+			continue
+		}
+		entry, err := parser.ParseLine(trimmed)
+		if err != nil || entry == nil {
+			continue
+		}
+		entries = append(entries, *entry)
+	}
+	return entries
+}
+
 // completeAllEntries returns all IPs and domains for shell completion.
 func completeAllEntries() ([]string, cobra.ShellCompDirective) {
 	_, block, _, err := readBlock()

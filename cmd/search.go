@@ -10,9 +10,13 @@ import (
 	"github.com/vulcanshen/hostfile/parser"
 )
 
+var searchAll bool
+
 var searchCmd = &cobra.Command{
-	Use:   "search <ip|domain>",
-	Short: "Search the managed block for an IP or domain",
+	Use:           "search <ip|domain>",
+	Short:         "Search the managed block for an IP or domain",
+	SilenceUsage:  true,
+	SilenceErrors: true,
 	Args: cobra.ExactArgs(1),
 	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
 		if len(args) != 0 {
@@ -20,21 +24,29 @@ var searchCmd = &cobra.Command{
 		}
 		return completeAllEntries()
 	},
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		query := args[0]
 
-		_, block, _, err := readBlock()
+		before, block, after, err := readBlock()
 		if err != nil {
 			exitWithError(err)
 		}
 
 		results := manager.Search(block, query)
+
+		if searchAll {
+			outside := parseOutsideEntries(before + "\n" + after)
+			outsideBlock := &parser.ManagedBlock{Entries: outside}
+			outsideResults := manager.Search(outsideBlock, query)
+			results = append(outsideResults, results...)
+		}
+
 		if len(results) == 0 {
-			fmt.Printf("no entries found for %q\n", query)
-			return
+			return fmt.Errorf("no entries found for %q", query)
 		}
 
 		printEntriesHighlight(results, query)
+		return nil
 	},
 }
 
@@ -178,5 +190,6 @@ func printEntryRows(entry parser.HostEntry, ipWidth int, query string, tty bool)
 }
 
 func init() {
+	searchCmd.Flags().BoolVar(&searchAll, "all", false, "include entries outside the managed block")
 	rootCmd.AddCommand(searchCmd)
 }

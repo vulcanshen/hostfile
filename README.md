@@ -127,6 +127,13 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | Flag | Description |
 |------|-------------|
 | `--json` | Output active entries as JSON (`{"ip": ["domain1", "domain2"]}`) |
+| `--all` | Include entries outside the managed block |
+
+### Search Flags
+
+| Flag | Description |
+|------|-------------|
+| `--all` | Include entries outside the managed block |
 
 ## Usage Examples
 

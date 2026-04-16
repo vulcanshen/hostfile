@@ -11,6 +11,7 @@ import (
 )
 
 var showJSON bool
+var showAll bool
 
 var showCmd = &cobra.Command{
 	Use:   "show [name]",
@@ -32,14 +33,24 @@ var showCmd = &cobra.Command{
 }
 
 func showCurrentBlock() {
-	_, block, _, err := readBlock()
+	before, block, after, err := readBlock()
 	if err != nil {
 		exitWithError(err)
 	}
 
 	entries := manager.List(block)
+
+	if showAll {
+		outside := parseOutsideEntries(before + "\n" + after)
+		entries = append(outside, entries...)
+	}
+
 	if len(entries) == 0 {
-		fmt.Println("managed block is empty")
+		if showAll {
+			fmt.Println("hosts file is empty")
+		} else {
+			fmt.Println("managed block is empty")
+		}
 		return
 	}
 
@@ -99,5 +110,6 @@ func printJSON(entries []parser.HostEntry) {
 
 func init() {
 	showCmd.Flags().BoolVar(&showJSON, "json", false, "output active entries as JSON")
+	showCmd.Flags().BoolVar(&showAll, "all", false, "include entries outside the managed block")
 	rootCmd.AddCommand(showCmd)
 }

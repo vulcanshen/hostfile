@@ -127,6 +127,13 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | 參數 | 說明 |
 |------|------|
 | `--json` | 以 JSON 格式輸出 active 設定（`{"ip": ["domain1", "domain2"]}`） |
+| `--all` | 包含 managed block 以外的設定 |
+
+### Search 參數
+
+| 參數 | 說明 |
+|------|------|
+| `--all` | 包含 managed block 以外的設定 |
 
 ## 使用範例
 
