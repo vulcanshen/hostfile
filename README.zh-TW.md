@@ -114,6 +114,7 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | `list` | 列出所有已儲存的快照 |
 | `load <name>` | 載入快照 |
 | `delete <name>` | 刪除快照 |
+| `open` | 用預設編輯器開啟 hosts 檔（`$EDITOR`，預設 `vi`；Windows 使用 `notepad`） |
 | `version` | 顯示版本號 |
 
 ### 全域參數
@@ -248,6 +249,7 @@ hostfile completion powershell > hostfile.ps1
 | 環境變數 | 說明 |
 |---------|------|
 | `HOSTFILE__HOSTS_FILE` | 覆蓋預設的 hosts 檔路徑。設定後，所有指令都會使用此路徑取代 `/etc/hosts`。 |
+| `EDITOR` | `open` 指令使用的編輯器。macOS/Linux 預設 `vi`，Windows 預設 `notepad`。 |
 
 ## 授權
 

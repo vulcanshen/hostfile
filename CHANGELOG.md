@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.6.0] - 2026-04-17
+
+### New Features
+
+- Add `open` command — open the hosts file in your default editor with automatic privilege escalation
+  - macOS / Linux: uses `$EDITOR` (falls back to `vi`), elevated with `sudo` or `doas` when needed
+  - Windows: uses `notepad`, elevated with `sudo` or `gsudo` when needed
+
 ## [v1.5.3] - 2026-04-16
 
 ### Improvements

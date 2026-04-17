@@ -114,6 +114,7 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | `list` | 保存済みスナップショットの一覧表示 |
 | `load <name>` | スナップショットを読み込み |
 | `delete <name>` | スナップショットを削除 |
+| `open` | デフォルトエディタで hosts ファイルを開く（`$EDITOR`、デフォルト `vi`；Windows は `notepad`） |
 | `version` | バージョン番号を表示 |
 
 ### グローバルフラグ
@@ -249,6 +250,7 @@ hostfile completion powershell > hostfile.ps1
 | 環境変数 | 説明 |
 |----------|------|
 | `HOSTFILE__HOSTS_FILE` | デフォルトの hosts ファイルパスをオーバーライド。設定すると、すべてのコマンドが `/etc/hosts` の代わりにこのパスを使用します。 |
+| `EDITOR` | `open` コマンドで使用するエディタ。macOS/Linux のデフォルトは `vi`、Windows は `notepad`。 |
 
 ## ライセンス
 

@@ -114,6 +114,7 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | `list` | List all saved snapshots |
 | `load <name>` | Load a saved snapshot into the managed block |
 | `delete <name>` | Delete a saved snapshot |
+| `open` | Open the hosts file in your default editor (`$EDITOR`, falls back to `vi`; Windows uses `notepad`) |
 | `version` | Print the version number |
 
 ### Global Flags
@@ -252,6 +253,7 @@ hostfile completion powershell > hostfile.ps1
 | Environment Variable | Description |
 |---------------------|-------------|
 | `HOSTFILE__HOSTS_FILE` | Override the default hosts file path. When set, all commands use this path instead of `/etc/hosts`. |
+| `EDITOR` | Editor used by `open` command. Falls back to `vi` on macOS/Linux, `notepad` on Windows. |
 
 ## License
 

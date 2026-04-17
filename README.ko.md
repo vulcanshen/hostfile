@@ -114,6 +114,7 @@ irm https://raw.githubusercontent.com/vulcanshen/hostfile/main/uninstall.ps1 | i
 | `list` | 저장된 스냅샷 목록 표시 |
 | `load <name>` | 스냅샷 불러오기 |
 | `delete <name>` | 스냅샷 삭제 |
+| `open` | 기본 편집기로 hosts 파일 열기 (`$EDITOR`, 기본값 `vi`; Windows는 `notepad`) |
 | `version` | 버전 번호 표시 |
 
 ### 글로벌 플래그
@@ -249,6 +250,7 @@ hostfile completion powershell > hostfile.ps1
 | 환경 변수 | 설명 |
 |-----------|------|
 | `HOSTFILE__HOSTS_FILE` | 기본 hosts 파일 경로를 오버라이드. 설정하면 모든 명령어가 `/etc/hosts` 대신 이 경로를 사용합니다. |
+| `EDITOR` | `open` 명령어에서 사용할 편집기. macOS/Linux 기본값은 `vi`, Windows는 `notepad`. |
 
 ## 라이선스
 
